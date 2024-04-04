@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34701.34
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ookii.VmSockets", "Ookii.VmSockets\Ookii.VmSockets.csproj", "{33BCBA7E-2AB0-4A5F-9A19-FE4AD9B6006C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{57294355-223D-46A7-9058-7238966DB0FA}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		Directory.Build.props = Directory.Build.props
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{33BCBA7E-2AB0-4A5F-9A19-FE4AD9B6006C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33BCBA7E-2AB0-4A5F-9A19-FE4AD9B6006C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33BCBA7E-2AB0-4A5F-9A19-FE4AD9B6006C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33BCBA7E-2AB0-4A5F-9A19-FE4AD9B6006C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {054DCB01-E04B-4A78-B397-7234057F25BA}
+	EndGlobalSection
+EndGlobal
