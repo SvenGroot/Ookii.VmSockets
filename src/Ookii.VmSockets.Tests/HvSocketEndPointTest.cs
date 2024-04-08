@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Runtime.InteropServices;
 using Windows.Win32;
 using Windows.Win32.Networking.WinSock;
 using Windows.Win32.System.Hypervisor;
@@ -59,5 +60,26 @@ public class HvSocketEndPointTest
         endpoint2 = (HvSocketEndPoint)endpoint2.Create(socketAddress);
         Assert.AreEqual(endpoint.VmId, endpoint2.VmId);
         Assert.AreEqual(endpoint.ServiceId, endpoint2.ServiceId);
+    }
+
+    [TestMethod]
+    public void TestEqualsAndGetHashCode()
+    {
+        var vmId = Guid.NewGuid();
+        var serviceId = Guid.NewGuid();
+        var endpoint = new HvSocketEndPoint(vmId, serviceId);
+        var endpoint2 = new HvSocketEndPoint(vmId, serviceId);
+        Assert.AreEqual(endpoint, endpoint2);
+        Assert.AreEqual(endpoint.GetHashCode(), endpoint2.GetHashCode());
+        endpoint2.VmId = Guid.NewGuid();
+        Assert.AreNotEqual(endpoint, endpoint2);
+        Assert.AreNotEqual(endpoint.GetHashCode(), endpoint2.GetHashCode());
+        endpoint2.VmId = vmId;
+        endpoint2.ServiceId = Guid.NewGuid();
+        Assert.AreNotEqual(endpoint, endpoint2);
+        Assert.AreNotEqual(endpoint.GetHashCode(), endpoint2.GetHashCode());
+
+        Assert.IsFalse(endpoint.Equals(null));
+        Assert.IsFalse(endpoint.Equals("foo"));
     }
 }

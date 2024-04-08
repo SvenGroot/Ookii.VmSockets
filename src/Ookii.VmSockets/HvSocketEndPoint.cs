@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Net;
 using System.Net.Sockets;
 
 namespace Ookii.VmSockets;
@@ -145,5 +146,23 @@ public class HvSocketEndPoint : EndPoint
         address.WriteGuid(4, VmId);
         address.WriteGuid(20, ServiceId);
         return address;
+    }
+
+    /// <inheritdoc/>
+    public override bool Equals(
+#if NET8_0_OR_GREATER
+        [NotNullWhen(true)]
+#endif
+    object? obj)
+        => obj is HvSocketEndPoint endpoint && VmId == endpoint.VmId && ServiceId == endpoint.ServiceId;
+
+    /// <inheritdoc/>
+    public override int GetHashCode()
+    {
+#if NET8_0_OR_GREATER
+        return HashCode.Combine(VmId, ServiceId);
+#else
+        return VmId.GetHashCode() ^ ServiceId.GetHashCode();
+#endif
     }
 }
