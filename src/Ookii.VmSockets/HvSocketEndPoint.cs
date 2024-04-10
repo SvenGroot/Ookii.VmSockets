@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.Versioning;
 
 namespace Ookii.VmSockets;
 
@@ -15,6 +16,9 @@ namespace Ookii.VmSockets;
 /// </remarks>
 /// <threadsafety instance="false" static="true" />
 /// <seealso href="https://learn.microsoft.com/en-us/virtualization/hyper-v-on-windows/user-guide/make-integration-service"/>
+#if NET6_0_OR_GREATER
+[SupportedOSPlatform("windows")]
+#endif
 public class HvSocketEndPoint : EndPoint
 {
     /// <summary>
@@ -150,7 +154,7 @@ public class HvSocketEndPoint : EndPoint
 
     /// <inheritdoc/>
     public override bool Equals(
-#if NET8_0_OR_GREATER
+#if NET6_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
         [NotNullWhen(true)]
 #endif
     object? obj)

@@ -115,7 +115,7 @@ public static class HvSocket
     /// </summary>
     /// <param name="type">One of the <see cref="SocketType"/> values.</param>
     /// <returns>The Hyper-V socket.</returns>
-#if NET8_0_OR_GREATER
+#if NET6_0_OR_GREATER
     [SupportedOSPlatform("windows")]
 #endif
     public static Socket Create(SocketType type) => new(AddressFamily, type, RawProtocol);

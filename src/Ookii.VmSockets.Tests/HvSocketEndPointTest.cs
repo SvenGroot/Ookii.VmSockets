@@ -12,6 +12,12 @@ public class HvSocketEndPointTest
     [TestMethod]
     public void TestConstructor()
     {
+        if (!PlatformHelper.IsWindows())
+        {
+            Assert.Inconclusive("Hyper-V sockets are only supported on Windows.");
+            return;
+        }
+
         var vmId = Guid.NewGuid();
         var serviceId = Guid.NewGuid();
         var endpoint = new HvSocketEndPoint(vmId, serviceId);
@@ -26,6 +32,12 @@ public class HvSocketEndPointTest
     [TestMethod]
     public void TestSerialize()
     {
+        if (!PlatformHelper.IsWindows())
+        {
+            Assert.Inconclusive("Hyper-V sockets are only supported on Windows.");
+            return;
+        }
+
         var vmId = Guid.NewGuid();
         var serviceId = Guid.NewGuid();
         var endpoint = new HvSocketEndPoint(vmId, serviceId);
@@ -52,6 +64,12 @@ public class HvSocketEndPointTest
     [TestMethod]
     public void TestCreate()
     {
+        if (!PlatformHelper.IsWindows())
+        {
+            Assert.Inconclusive("Hyper-V sockets are only supported on Windows.");
+            return;
+        }
+
         var vmId = Guid.NewGuid();
         var serviceId = Guid.NewGuid();
         var endpoint = new HvSocketEndPoint(vmId, serviceId);
@@ -65,6 +83,12 @@ public class HvSocketEndPointTest
     [TestMethod]
     public void TestEqualsAndGetHashCode()
     {
+        if (!PlatformHelper.IsWindows())
+        {
+            Assert.Inconclusive("Hyper-V sockets are only supported on Windows.");
+            return;
+        }
+
         var vmId = Guid.NewGuid();
         var serviceId = Guid.NewGuid();
         var endpoint = new HvSocketEndPoint(vmId, serviceId);
