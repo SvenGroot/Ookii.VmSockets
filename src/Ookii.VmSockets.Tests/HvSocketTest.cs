@@ -1,3 +1,5 @@
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using Windows.Win32;
 using Windows.Win32.System.Hypervisor;
@@ -13,6 +15,7 @@ public class HvSocketTest
         // Including the generated definitions from CsWin32 is overkill for the library, but it's
         // useful for testing that the constants are correct.
         Assert.AreEqual(PInvoke.AF_HYPERV, (int)HvSocket.AddressFamily);
+        Assert.AreEqual(PInvoke.HV_PROTOCOL_RAW, (uint)HvSocket.RawProtocol);
         Assert.AreEqual(Marshal.SizeOf<SOCKADDR_HV>(), HvSocket.SocketAddressSize);
         Assert.AreEqual(PInvoke.HV_GUID_BROADCAST, HvSocket.Broadcast);
         Assert.AreEqual(PInvoke.HV_GUID_CHILDREN, HvSocket.Children);
@@ -23,5 +26,20 @@ public class HvSocketTest
         Assert.AreEqual(PInvoke.HV_GUID_ZERO, HvSocket.Wildcard);
         Assert.AreEqual(HvSocket.VSockTemplate, HvSocket.CreateVSockServiceId(0));
         Assert.AreEqual(new Guid("000004D2-facb-11e6-bd58-64006a7986d3"), HvSocket.CreateVSockServiceId(1234));
+    }
+
+    [TestMethod]
+    public void TestCreate()
+    {
+        if (!PlatformHelper.IsWindows())
+        {
+            Assert.Inconclusive("Hyper-V sockets are only supported on Windows.");
+            return;
+        }
+
+        var socket = HvSocket.Create(SocketType.Stream);
+        Assert.AreEqual(HvSocket.AddressFamily, socket.AddressFamily);
+        Assert.AreEqual(HvSocket.RawProtocol, socket.ProtocolType);
+        Assert.AreEqual(SocketType.Stream, socket.SocketType);
     }
 }

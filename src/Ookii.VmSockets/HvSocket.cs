@@ -1,4 +1,5 @@
 ﻿using System.Net.Sockets;
+using System.Runtime.Versioning;
 
 namespace Ookii.VmSockets;
 
@@ -11,6 +12,11 @@ public static class HvSocket
     /// The address family for Hyper-V sockets, also known as <c>AF_HYPERV</c>.
     /// </summary>
     public const AddressFamily AddressFamily = (AddressFamily)34;
+
+    /// <summary>
+    /// The protocol type that must be used when creating Hyper-V sockets.
+    /// </summary>
+    public const ProtocolType RawProtocol = (ProtocolType)1;
 
     /// <summary>
     /// The size of the <c>SOCKADDR_HV</c> structure, used to describe Hyper-V socket addresses.
@@ -103,4 +109,14 @@ public static class HvSocket
 
         return new((uint)port, 0xFACB, 0x11E6, 0xBD, 0x58, 0x64, 0x00, 0x6A, 0x79, 0x86, 0xD3);
     }
+
+    /// <summary>
+    /// Creates a new Hyper-V socket.
+    /// </summary>
+    /// <param name="type">One of the <see cref="SocketType"/> values.</param>
+    /// <returns>The Hyper-V socket.</returns>
+#if NET8_0_OR_GREATER
+    [SupportedOSPlatform("windows")]
+#endif
+    public static Socket Create(SocketType type) => new(AddressFamily, type, RawProtocol);
 }
