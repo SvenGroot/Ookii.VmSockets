@@ -9,6 +9,32 @@ namespace Ookii.VmSockets;
 public static class HvSocket
 {
     /// <summary>
+    /// Defines socket options available for Hyper-V sockets.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    ///   All these options use the value of <see cref="RawProtocol"/> as the level. Use the
+    ///   <see cref="SetConnectTimeout"/>, <see cref="SetConnectedSuspend"/>, and
+    ///   <see cref="SetHighVtl"/> methods to set these options.
+    /// </para>
+    /// </remarks>
+    public enum SocketOption
+    {
+        /// <summary>
+        /// Sets the connection timeout for the socket in milliseconds.
+        /// </summary>
+        ConnectTimeout = 1,
+        /// <summary>
+        /// Indicates that the socket will not disconnect when the VM is paused.
+        /// </summary>
+        ConnectedSuspend = 4,
+        /// <summary>
+        /// Indicates that the socket will connect to guest VTL 2.
+        /// </summary>
+        HighVtl = 8
+    }
+
+    /// <summary>
     /// The address family for Hyper-V sockets, also known as <c>AF_HYPERV</c>.
     /// </summary>
     public const AddressFamily AddressFamily = (AddressFamily)34;
@@ -119,4 +145,166 @@ public static class HvSocket
     [SupportedOSPlatform("windows")]
 #endif
     public static Socket Create(SocketType type) => new(AddressFamily, type, RawProtocol);
+
+    /// <summary>
+    /// Sets the connection timeout for the socket.
+    /// </summary>
+    /// <param name="socket">A Hyper-V socket.</param>
+    /// <param name="milliseconds">The timeout in milliseconds.</param>
+    /// <remarks>
+    /// <para>
+    ///   The behavior of this function is undefined if the socket is not a Hyper-V socket.
+    /// </para>
+    /// </remarks>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="socket"/> is <see langword="null"/>.
+    /// </exception>
+#if NET6_0_OR_GREATER
+    [SupportedOSPlatform("windows")]
+#endif
+    public static void SetConnectTimeout(Socket socket, int milliseconds)
+    {
+        if (socket == null)
+        {
+            throw new ArgumentNullException(nameof(socket));
+        }
+
+        socket.SetSocketOption((SocketOptionLevel)RawProtocol, (SocketOptionName)SocketOption.ConnectTimeout, milliseconds);
+    }
+
+    /// <summary>
+    /// Gets the connection timeout for the socket.
+    /// </summary>
+    /// <param name="socket">A Hyper-V socket.</param>
+    /// <returns>The timeout in milliseconds.</returns>
+    /// <remarks>
+    /// <para>
+    ///   The behavior of this function is undefined if the socket is not a Hyper-V socket.
+    /// </para>
+    /// </remarks>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="socket"/> is <see langword="null"/>.
+    /// </exception>
+#if NET6_0_OR_GREATER
+    [SupportedOSPlatform("windows")]
+#endif
+    public static int GetConnectTimeout(Socket socket)
+    {
+        if (socket == null)
+        {
+            throw new ArgumentNullException(nameof(socket));
+        }
+
+        return (int)socket.GetSocketOption((SocketOptionLevel)RawProtocol, (SocketOptionName)SocketOption.ConnectTimeout)!;
+    }
+
+    /// <summary>
+    /// Sets the socket connected suspend option.
+    /// </summary>
+    /// <param name="socket">A Hyper-V socket.</param>
+    /// <param name="value">
+    /// <see langword="true"/> to indicate the socket will not disconnect when the VM is paused;
+    /// otherwise, <see langword="false"/>.
+    /// </param>
+    /// <remarks>
+    /// <para>
+    ///   The behavior of this function is undefined if the socket is not a Hyper-V socket.
+    /// </para>
+    /// </remarks>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="socket"/> is <see langword="null"/>.
+    /// </exception>
+#if NET6_0_OR_GREATER
+    [SupportedOSPlatform("windows")]
+#endif
+    public static void SetConnectedSuspend(Socket socket, bool value)
+    {
+        if (socket == null)
+        {
+            throw new ArgumentNullException(nameof(socket));
+        }
+
+        socket.SetSocketOption((SocketOptionLevel)RawProtocol, (SocketOptionName)SocketOption.ConnectedSuspend, value);
+    }
+
+    /// <summary>
+    /// Gets the socket connected suspend option.
+    /// </summary>
+    /// <param name="socket">A Hyper-V socket.</param>
+    /// <returns>
+    /// <see langword="true"/> to indicate the socket will not disconnect when the VM is paused;
+    /// otherwise, <see langword="false"/>.
+    /// </returns>
+    /// <remarks>
+    /// <para>
+    ///   The behavior of this function is undefined if the socket is not a Hyper-V socket.
+    /// </para>
+    /// </remarks>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="socket"/> is <see langword="null"/>.
+    /// </exception>
+    public static bool GetConnectedSuspend(Socket socket)
+    {
+        if (socket == null)
+        {
+            throw new ArgumentNullException(nameof(socket));
+        }
+
+        return (int)socket.GetSocketOption((SocketOptionLevel)RawProtocol, (SocketOptionName)SocketOption.ConnectedSuspend)! != 0;
+    }
+
+    /// <summary>
+    /// Sets the socket high VTL option.
+    /// </summary>
+    /// <param name="socket">A Hyper-V socket.</param>
+    /// <param name="value">
+    /// <see langword="true"/> to indicate the socket will connect to guest VTL 2; otherwise,
+    /// <see langword="false"/>.
+    /// </param>
+    /// <remarks>
+    /// <para>
+    ///   The behavior of this function is undefined if the socket is not a Hyper-V socket.
+    /// </para>
+    /// </remarks>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="socket"/> is <see langword="null"/>.
+    /// </exception>
+#if NET6_0_OR_GREATER
+    [SupportedOSPlatform("windows")]
+#endif
+    public static void SetHighVtl(Socket socket, bool value)
+    {
+        if (socket == null)
+        {
+            throw new ArgumentNullException(nameof(socket));
+        }
+
+        socket.SetSocketOption((SocketOptionLevel)RawProtocol, (SocketOptionName)SocketOption.HighVtl, value);
+    }
+
+    /// <summary>
+    /// Gets the socket connected suspend option.
+    /// </summary>
+    /// <param name="socket">A Hyper-V socket.</param>
+    /// <returns>
+    /// <see langword="true"/> to indicate the socket will connect to guest VTL 2; otherwise,
+    /// <see langword="false"/>.
+    /// </returns>
+    /// <remarks>
+    /// <para>
+    ///   The behavior of this function is undefined if the socket is not a Hyper-V socket.
+    /// </para>
+    /// </remarks>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="socket"/> is <see langword="null"/>.
+    /// </exception>
+    public static bool GetHighVtl(Socket socket)
+    {
+        if (socket == null)
+        {
+            throw new ArgumentNullException(nameof(socket));
+        }
+
+        return (int)socket.GetSocketOption((SocketOptionLevel)RawProtocol, (SocketOptionName)SocketOption.HighVtl)! != 0;
+    }
 }

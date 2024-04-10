@@ -17,6 +17,9 @@ public class HvSocketTest
         Assert.AreEqual(PInvoke.AF_HYPERV, (int)HvSocket.AddressFamily);
         Assert.AreEqual(PInvoke.HV_PROTOCOL_RAW, (uint)HvSocket.RawProtocol);
         Assert.AreEqual(Marshal.SizeOf<SOCKADDR_HV>(), HvSocket.SocketAddressSize);
+        Assert.AreEqual(PInvoke.HVSOCKET_CONNECT_TIMEOUT, (uint)HvSocket.SocketOption.ConnectTimeout);
+        Assert.AreEqual(PInvoke.HVSOCKET_CONNECTED_SUSPEND, (uint)HvSocket.SocketOption.ConnectedSuspend);
+        Assert.AreEqual(PInvoke.HVSOCKET_HIGH_VTL, (uint)HvSocket.SocketOption.HighVtl);
         Assert.AreEqual(PInvoke.HV_GUID_BROADCAST, HvSocket.Broadcast);
         Assert.AreEqual(PInvoke.HV_GUID_CHILDREN, HvSocket.Children);
         Assert.AreEqual(PInvoke.HV_GUID_LOOPBACK, HvSocket.Loopback);
@@ -37,9 +40,29 @@ public class HvSocketTest
             return;
         }
 
-        var socket = HvSocket.Create(SocketType.Stream);
+        using var socket = HvSocket.Create(SocketType.Stream);
         Assert.AreEqual(HvSocket.AddressFamily, socket.AddressFamily);
         Assert.AreEqual(HvSocket.RawProtocol, socket.ProtocolType);
         Assert.AreEqual(SocketType.Stream, socket.SocketType);
+    }
+
+    [TestMethod]
+    public void TestOptions()
+    {
+        if (!PlatformHelper.IsWindows())
+        {
+            Assert.Inconclusive("Hyper-V sockets are only supported on Windows.");
+            return;
+        }
+
+        using var socket = HvSocket.Create(SocketType.Stream);
+        HvSocket.SetConnectTimeout(socket, 1234);
+        Assert.AreEqual(1234, HvSocket.GetConnectTimeout(socket));
+
+        HvSocket.SetConnectedSuspend(socket, true);
+        Assert.IsTrue(HvSocket.GetConnectedSuspend(socket));
+
+        HvSocket.SetHighVtl(socket, true);
+        Assert.IsTrue(HvSocket.GetHighVtl(socket));
     }
 }
