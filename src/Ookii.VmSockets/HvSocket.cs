@@ -141,6 +141,13 @@ public static class HvSocket
     /// </summary>
     /// <param name="type">One of the <see cref="SocketType"/> values.</param>
     /// <returns>The Hyper-V socket.</returns>
+    /// <remarks>
+    /// <para>
+    ///   This method is equivalent to invoking the <see cref="Socket(AddressFamily, SocketType, ProtocolType)"/>
+    ///   constructor using the values of <see cref="AddressFamily"/>, <paramref name="type"/>, and
+    ///   <see cref="RawProtocol"/>.
+    /// </para>
+    /// </remarks>
 #if NET6_0_OR_GREATER
     [SupportedOSPlatform("windows")]
 #endif

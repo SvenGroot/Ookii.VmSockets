@@ -67,7 +67,7 @@ public class HvSocketEndPoint : EndPoint
     /// <inheritdoc/>
     /// </summary>
     /// <value>
-    /// The value of AF_HYPERV.
+    /// The value of <c>AF_HYPERV</c>.
     /// </value>
     public override AddressFamily AddressFamily => HvSocket.AddressFamily;
 

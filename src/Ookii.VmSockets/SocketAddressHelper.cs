@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Net.Sockets;
 
 namespace Ookii.VmSockets;
 
@@ -26,7 +27,13 @@ internal static class SocketAddressHelper
 #endif
     }
 
-#if !NET8_0_OR_GREATER
+#if NET8_0_OR_GREATER
+
+    public static AddressFamily GetRealAddressFamily(this SocketAddress address)
+        => (AddressFamily)BitConverter.ToUInt16(address.Buffer.Span[0..2]);
+
+#else
+
     private static void Write(this SocketAddress address, int offset, byte[] value)
     {
         for (int i = 0; i < value.Length; i++)
@@ -45,5 +52,6 @@ internal static class SocketAddressHelper
 
         return buffer;
     }
+
 #endif
 }
