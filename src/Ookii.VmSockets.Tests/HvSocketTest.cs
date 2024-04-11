@@ -67,9 +67,6 @@ public class HvSocketTest
         }
 
         using var socket = HvSocket.Create(SocketType.Stream);
-        HvSocket.SetConnectTimeout(socket, 1234);
-        Assert.AreEqual(1234, HvSocket.GetConnectTimeout(socket));
-
         HvSocket.SetConnectedSuspend(socket, true);
         Assert.IsTrue(HvSocket.GetConnectedSuspend(socket));
     }
@@ -84,10 +81,7 @@ public class HvSocketTest
         }
 
         using var socket = HvSocket.Create(SocketType.Stream);
-        HvSocket.SetConnectTimeout(socket, 1234);
-        Assert.AreEqual(1234, HvSocket.GetConnectTimeout(socket));
-
-        HvSocket.SetContainerPasstrue(socket, true);
+        HvSocket.SetContainerPassthru(socket, true);
         Assert.IsTrue(HvSocket.GetContainerPassthru(socket));
     }
 

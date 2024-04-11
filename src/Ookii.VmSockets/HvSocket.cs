@@ -238,7 +238,7 @@ public static class HvSocket
     [SupportedOSPlatform("windows10.0.14393")]
     [UnsupportedOSPlatform("windows10.0.22621")]
 #endif
-    public static void SetContainerPasstrue(Socket socket, bool value)
+    public static void SetContainerPassthru(Socket socket, bool value)
     {
         if (socket == null)
         {
