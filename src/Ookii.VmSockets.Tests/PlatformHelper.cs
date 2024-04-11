@@ -35,7 +35,7 @@ public static class PlatformHelper
 #if NET8_0_OR_GREATER
         if (OperatingSystem.IsWindowsVersionAtLeast(major, minor, build, revision))
 #else
-        if (return Environment.OSVersion.Platform == PlatformID.Win32NT && 
+        if (Environment.OSVersion.Platform == PlatformID.Win32NT && 
             Environment.OSVersion.Version >= new Version(major, minor, build, revision))
 #endif
         {
