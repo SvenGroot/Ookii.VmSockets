@@ -25,6 +25,10 @@ public static class HvSocket
         /// </summary>
         ConnectTimeout = 1,
         /// <summary>
+        /// Indicates the connection will pass through to a container.
+        /// </summary>
+        ContainerPassthru = 2,
+        /// <summary>
         /// Indicates that the socket will not disconnect when the VM is paused.
         /// </summary>
         ConnectedSuspend = 4,
@@ -209,6 +213,73 @@ public static class HvSocket
         }
 
         return (int)socket.GetSocketOption((SocketOptionLevel)RawProtocol, (SocketOptionName)SocketOption.ConnectTimeout)!;
+    }
+
+    /// <summary>
+    /// Sets the container pass-through socket option.
+    /// </summary>
+    /// <param name="socket">A Hyper-V socket.</param>
+    /// <param name="value">
+    /// <see langword="true"/> to enable pass-through; otherwise, <see langword="false"/>.
+    /// </param>
+    /// <remarks>
+    /// <para>
+    ///   This socket option was introduced in Windows 10, version 1607 (build 14393), and was
+    ///   removed in Windows 11, version 22h2 (build 22621).
+    /// </para>
+    /// <para>
+    ///   The behavior of this function is undefined if the socket is not a Hyper-V socket.
+    /// </para>
+    /// </remarks>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="socket"/> is <see langword="null"/>.
+    /// </exception>
+#if NET6_0_OR_GREATER
+    [SupportedOSPlatform("windows10.0.14393")]
+    [UnsupportedOSPlatform("windows10.0.22621")]
+#endif
+    public static void SetContainerPasstrue(Socket socket, bool value)
+    {
+        if (socket == null)
+        {
+            throw new ArgumentNullException(nameof(socket));
+        }
+
+        socket.SetSocketOption((SocketOptionLevel)RawProtocol, (SocketOptionName)SocketOption.ContainerPassthru, value);
+    }
+
+    /// <summary>
+    /// Gets the container pass-through socket option.
+    /// </summary>
+    /// <param name="socket">A Hyper-V socket.</param>
+    /// <returns>
+    /// <see langword="true"/> to indicate container pass-through is enabled; otherwise,
+    /// <see langword="false"/>.
+    /// </returns>
+    /// <remarks>
+    /// <para>
+    ///   This socket option was introduced in Windows 10, version 1607 (build 14393), and was
+    ///   removed in Windows 11, version 22h2 (build 22621).
+    /// </para>
+    /// <para>
+    ///   The behavior of this function is undefined if the socket is not a Hyper-V socket.
+    /// </para>
+    /// </remarks>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="socket"/> is <see langword="null"/>.
+    /// </exception>
+#if NET6_0_OR_GREATER
+    [SupportedOSPlatform("windows10.0.14393")]
+    [UnsupportedOSPlatform("windows10.0.22621")]
+#endif
+    public static bool GetContainerPassthru(Socket socket)
+    {
+        if (socket == null)
+        {
+            throw new ArgumentNullException(nameof(socket));
+        }
+
+        return (int)socket.GetSocketOption((SocketOptionLevel)RawProtocol, (SocketOptionName)SocketOption.ContainerPassthru)! != 0;
     }
 
     /// <summary>

@@ -75,6 +75,24 @@ public class HvSocketTest
     }
 
     [TestMethod]
+    public void TestContainerPassthrough()
+    {
+        if (!PlatformHelper.IsWindows10_1709OrLater(false) || PlatformHelper.IsWindows11_22h2OrLater(false))
+        {
+            Assert.Inconclusive("This test requires at least Windows 10 1709 and older than Windows 11 22h2.");
+            return;
+        }
+
+        using var socket = HvSocket.Create(SocketType.Stream);
+        HvSocket.SetConnectTimeout(socket, 1234);
+        Assert.AreEqual(1234, HvSocket.GetConnectTimeout(socket));
+
+        HvSocket.SetContainerPasstrue(socket, true);
+        Assert.IsTrue(HvSocket.GetContainerPassthru(socket));
+    }
+
+
+    [TestMethod]
     public void TestHighVtl()
     {
         if (!PlatformHelper.IsWindows11_22h2OrLater())

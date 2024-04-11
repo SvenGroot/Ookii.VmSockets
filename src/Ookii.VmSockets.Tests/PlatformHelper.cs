@@ -23,14 +23,14 @@ public static class PlatformHelper
 #if NET8_0_OR_GREATER
     [SupportedOSPlatformGuard("windows10.0.16299")]
 #endif
-    public static bool IsWindows10_1709OrLater() => IsWindowsVersionAtLeast(10, 0, 16299);
+    public static bool IsWindows10_1709OrLater(bool assert = true) => IsWindowsVersionAtLeast(10, 0, 16299, 0, assert);
 
 #if NET8_0_OR_GREATER
     [SupportedOSPlatformGuard("windows10.0.22621")]
 #endif
-    public static bool IsWindows11_22h2OrLater() => IsWindowsVersionAtLeast(10, 0, 22621);
+    public static bool IsWindows11_22h2OrLater(bool assert = true) => IsWindowsVersionAtLeast(10, 0, 22621, 0, assert);
 
-    private static bool IsWindowsVersionAtLeast(int major, int minor = 0, int build = 0, int revision = 0)
+    private static bool IsWindowsVersionAtLeast(int major, int minor = 0, int build = 0, int revision = 0, bool assert = true)
     {
 #if NET8_0_OR_GREATER
         if (OperatingSystem.IsWindowsVersionAtLeast(major, minor, build, revision))
@@ -42,7 +42,11 @@ public static class PlatformHelper
             return true;
         }
 
-        Assert.Inconclusive($"This test is only supported on Windows version {major}.{minor}.{build}.{revision} and later.");
+        if (assert)
+        {
+            Assert.Inconclusive($"This test is only supported on Windows version {major}.{minor}.{build}.{revision} and later.");
+        }
+
         return false;
     }
 
