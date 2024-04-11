@@ -1,0 +1,36 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: .NET
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+    - name: Restore dependencies
+      run: dotnet restore src
+    - name: Build
+      run: dotnet build src --no-restore --configuration Release
+    - name: Test
+      if: ${{ runner.os == 'Windows' }}
+      run: dotnet test src --no-build --verbosity normal --configuration Release
+    # Test with .Net 8 only on Linux, because VSock support only applies to .Net 8 so there is no
+    # need to try to run the .Net Framework tests.
+    - name: Test (.Net 8 only)
+      if: ${{ runner.os != 'Windows' }}
+      run: dotnet test src --no-build --verbosity normal --configuration Release --framework net8.0
