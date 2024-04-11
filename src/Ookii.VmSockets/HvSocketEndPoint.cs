@@ -153,6 +153,9 @@ public class HvSocketEndPoint : EndPoint
     }
 
     /// <inheritdoc/>
+    public override string ToString() => $"hvsocket[{VmId}:{ServiceId}]";
+
+    /// <inheritdoc/>
     public override bool Equals(
 #if NET6_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
         [NotNullWhen(true)]
@@ -163,7 +166,7 @@ public class HvSocketEndPoint : EndPoint
     /// <inheritdoc/>
     public override int GetHashCode()
     {
-#if NET8_0_OR_GREATER
+#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
         return HashCode.Combine(VmId, ServiceId);
 #else
         return VmId.GetHashCode() ^ ServiceId.GetHashCode();

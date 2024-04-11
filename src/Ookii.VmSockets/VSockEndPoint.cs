@@ -163,6 +163,9 @@ public class VSockEndPoint : EndPoint
     }
 
     /// <inheritdoc/>
+    public override string ToString() => $"vsock[{ContextId}:{Port}]";
+
+    /// <inheritdoc/>
     public override bool Equals([NotNullWhen(true)] object? obj)
         => obj is VSockEndPoint other && ContextId == other.ContextId && Port == other.Port && ToHost == other.ToHost;
 

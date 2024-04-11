@@ -102,4 +102,19 @@ public class HvSocketEndPointTest
         Assert.IsFalse(endpoint.Equals(null));
         Assert.IsFalse(endpoint.Equals("foo"));
     }
+
+    [TestMethod]
+    public void TestToString()
+    {
+        if (!PlatformHelper.IsWindows10OrLater())
+        {
+            return;
+        }
+
+        var vmId = new Guid("{502852EA-3B70-42EF-AF05-D41EA3A32221}");
+        var serviceId = new Guid("{17743CBE-8D4B-4463-9C38-57603A85B29B}");
+
+        var endpoint = new HvSocketEndPoint(vmId, serviceId);
+        Assert.AreEqual("hvsocket[502852ea-3b70-42ef-af05-d41ea3a32221:17743cbe-8d4b-4463-9c38-57603a85b29b]", endpoint.ToString());
+    }
 }

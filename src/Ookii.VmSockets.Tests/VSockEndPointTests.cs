@@ -1,5 +1,6 @@
 ﻿#if NET8_0_OR_GREATER
 
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 
@@ -94,6 +95,19 @@ public class VSockEndPointTests
 
         Assert.IsFalse(endpoint.Equals(null));
         Assert.IsFalse(endpoint.Equals("foo"));
+    }
+
+    [TestMethod]
+    public void TestToString()
+    {
+        if (!OperatingSystem.IsLinux())
+        {
+            Assert.Inconclusive("VSock sockets are only supported on Linux.");
+            return;
+        }
+
+        var endpoint = new VSockEndPoint(VSock.Host, 12345);
+        Assert.AreEqual("vsock[2:12345]", endpoint.ToString());
     }
 }
 
