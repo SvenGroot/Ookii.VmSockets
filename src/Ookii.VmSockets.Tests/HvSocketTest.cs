@@ -61,8 +61,24 @@ public class HvSocketTest
 
         HvSocket.SetConnectedSuspend(socket, true);
         Assert.IsTrue(HvSocket.GetConnectedSuspend(socket));
+    }
 
+    [TestMethod]
+    public void TestHighVtl()
+    {
+#if NET8_0_OR_GREATER
+        if (!OperatingSystem.IsWindowsVersionAtLeast(10, 0, 22621))
+#else
+        if (!PlatformHelper.IsWindows() || Environment.OSVersion.Version <= new Version(10, 0, 22621))
+#endif
+        {
+            Assert.Inconclusive("Hyper-V sockets are only supported on Windows.");
+            return;
+        }
+
+        using var socket = HvSocket.Create(SocketType.Stream);
         HvSocket.SetHighVtl(socket, true);
         Assert.IsTrue(HvSocket.GetHighVtl(socket));
+
     }
 }

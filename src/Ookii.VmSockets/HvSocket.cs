@@ -250,6 +250,9 @@ public static class HvSocket
     /// <exception cref="ArgumentNullException">
     /// <paramref name="socket"/> is <see langword="null"/>.
     /// </exception>
+#if NET6_0_OR_GREATER
+    [SupportedOSPlatform("windows")]
+#endif
     public static bool GetConnectedSuspend(Socket socket)
     {
         if (socket == null)
@@ -277,7 +280,7 @@ public static class HvSocket
     /// <paramref name="socket"/> is <see langword="null"/>.
     /// </exception>
 #if NET6_0_OR_GREATER
-    [SupportedOSPlatform("windows")]
+    [SupportedOSPlatform("windows10.0.22621")]
 #endif
     public static void SetHighVtl(Socket socket, bool value)
     {
@@ -305,6 +308,9 @@ public static class HvSocket
     /// <exception cref="ArgumentNullException">
     /// <paramref name="socket"/> is <see langword="null"/>.
     /// </exception>
+#if NET6_0_OR_GREATER
+    [SupportedOSPlatform("windows10.0.22621")]
+#endif
     public static bool GetHighVtl(Socket socket)
     {
         if (socket == null)
