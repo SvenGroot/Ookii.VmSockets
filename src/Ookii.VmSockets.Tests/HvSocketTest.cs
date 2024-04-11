@@ -34,9 +34,8 @@ public class HvSocketTest
     [TestMethod]
     public void TestCreate()
     {
-        if (!PlatformHelper.IsWindows())
+        if (!PlatformHelper.IsWindows10OrLater())
         {
-            Assert.Inconclusive("Hyper-V sockets are only supported on Windows.");
             return;
         }
 
@@ -47,11 +46,23 @@ public class HvSocketTest
     }
 
     [TestMethod]
-    public void TestOptions()
+    public void TestConnectTimeout()
     {
-        if (!PlatformHelper.IsWindows())
+        if (!PlatformHelper.IsWindows10_1607OrLater())
         {
-            Assert.Inconclusive("Hyper-V sockets are only supported on Windows.");
+            return;
+        }
+
+        using var socket = HvSocket.Create(SocketType.Stream);
+        HvSocket.SetConnectTimeout(socket, 1234);
+        Assert.AreEqual(1234, HvSocket.GetConnectTimeout(socket));
+    }
+
+    [TestMethod]
+    public void TestConnectedSuspend()
+    {
+        if (!PlatformHelper.IsWindows10_1709OrLater())
+        {
             return;
         }
 
@@ -66,13 +77,8 @@ public class HvSocketTest
     [TestMethod]
     public void TestHighVtl()
     {
-#if NET8_0_OR_GREATER
-        if (!OperatingSystem.IsWindowsVersionAtLeast(10, 0, 22621))
-#else
-        if (!PlatformHelper.IsWindows() || Environment.OSVersion.Version <= new Version(10, 0, 22621))
-#endif
+        if (!PlatformHelper.IsWindows11_22h2OrLater())
         {
-            Assert.Inconclusive("Hyper-V sockets are only supported on Windows.");
             return;
         }
 

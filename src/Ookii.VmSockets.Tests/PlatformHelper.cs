@@ -11,15 +11,39 @@ namespace Ookii.VmSockets.Tests;
 public static class PlatformHelper
 {
 #if NET8_0_OR_GREATER
-    [SupportedOSPlatformGuard("windows")]
+    [SupportedOSPlatformGuard("windows10.0")]
 #endif
-    public static bool IsWindows()
+    public static bool IsWindows10OrLater() => IsWindowsVersionAtLeast(10);
+
+#if NET8_0_OR_GREATER
+    [SupportedOSPlatformGuard("windows10.0.14393")]
+#endif
+    public static bool IsWindows10_1607OrLater() => IsWindowsVersionAtLeast(10, 0, 14393);
+
+#if NET8_0_OR_GREATER
+    [SupportedOSPlatformGuard("windows10.0.16299")]
+#endif
+    public static bool IsWindows10_1709OrLater() => IsWindowsVersionAtLeast(10, 0, 16299);
+
+#if NET8_0_OR_GREATER
+    [SupportedOSPlatformGuard("windows10.0.22621")]
+#endif
+    public static bool IsWindows11_22h2OrLater() => IsWindowsVersionAtLeast(10, 0, 22621);
+
+    private static bool IsWindowsVersionAtLeast(int major, int minor = 0, int build = 0, int revision = 0)
     {
 #if NET8_0_OR_GREATER
-        return OperatingSystem.IsWindows();
+        if (OperatingSystem.IsWindowsVersionAtLeast(major, minor, build, revision))
 #else
-        return Environment.OSVersion.Platform == PlatformID.Win32NT;
+        if (return Environment.OSVersion.Platform == PlatformID.Win32NT && 
+            Environment.OSVersion.Version >= new Version(major, minor, build, revision))
 #endif
+        {
+            return true;
+        }
+
+        Assert.Inconclusive($"This test is only supported on Windows version {major}.{minor}.{build}.{revision} and later.");
+        return false;
     }
 
     [StructLayout(LayoutKind.Explicit)]
@@ -42,5 +66,4 @@ public static class PlatformHelper
         [FieldOffset(15)]
         public char svm_zero2;
     }
-
 }

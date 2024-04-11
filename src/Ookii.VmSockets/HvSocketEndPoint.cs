@@ -17,7 +17,7 @@ namespace Ookii.VmSockets;
 /// <threadsafety instance="false" static="true" />
 /// <seealso href="https://learn.microsoft.com/en-us/virtualization/hyper-v-on-windows/user-guide/make-integration-service"/>
 #if NET6_0_OR_GREATER
-[SupportedOSPlatform("windows")]
+[SupportedOSPlatform("windows10.0")]
 #endif
 public class HvSocketEndPoint : EndPoint
 {

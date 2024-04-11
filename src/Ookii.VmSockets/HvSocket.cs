@@ -149,7 +149,7 @@ public static class HvSocket
     /// </para>
     /// </remarks>
 #if NET6_0_OR_GREATER
-    [SupportedOSPlatform("windows")]
+    [SupportedOSPlatform("windows10.0")]
 #endif
     public static Socket Create(SocketType type) => new(AddressFamily, type, RawProtocol);
 
@@ -160,6 +160,9 @@ public static class HvSocket
     /// <param name="milliseconds">The timeout in milliseconds.</param>
     /// <remarks>
     /// <para>
+    ///   This socket option was introduced in Windows 10, version 1607 (build 14393).
+    /// </para>
+    /// <para>
     ///   The behavior of this function is undefined if the socket is not a Hyper-V socket.
     /// </para>
     /// </remarks>
@@ -167,7 +170,7 @@ public static class HvSocket
     /// <paramref name="socket"/> is <see langword="null"/>.
     /// </exception>
 #if NET6_0_OR_GREATER
-    [SupportedOSPlatform("windows")]
+    [SupportedOSPlatform("windows10.0.14393")]
 #endif
     public static void SetConnectTimeout(Socket socket, int milliseconds)
     {
@@ -186,6 +189,9 @@ public static class HvSocket
     /// <returns>The timeout in milliseconds.</returns>
     /// <remarks>
     /// <para>
+    ///   This socket option was introduced in Windows 10, version 1607 (build 14393).
+    /// </para>
+    /// <para>
     ///   The behavior of this function is undefined if the socket is not a Hyper-V socket.
     /// </para>
     /// </remarks>
@@ -193,7 +199,7 @@ public static class HvSocket
     /// <paramref name="socket"/> is <see langword="null"/>.
     /// </exception>
 #if NET6_0_OR_GREATER
-    [SupportedOSPlatform("windows")]
+    [SupportedOSPlatform("windows10.0.14393")]
 #endif
     public static int GetConnectTimeout(Socket socket)
     {
@@ -215,6 +221,9 @@ public static class HvSocket
     /// </param>
     /// <remarks>
     /// <para>
+    ///   This socket option was introduced in Windows 10, version 1709 (build 16299).
+    /// </para>
+    /// <para>
     ///   The behavior of this function is undefined if the socket is not a Hyper-V socket.
     /// </para>
     /// </remarks>
@@ -222,7 +231,7 @@ public static class HvSocket
     /// <paramref name="socket"/> is <see langword="null"/>.
     /// </exception>
 #if NET6_0_OR_GREATER
-    [SupportedOSPlatform("windows")]
+    [SupportedOSPlatform("windows10.0.16299")]
 #endif
     public static void SetConnectedSuspend(Socket socket, bool value)
     {
@@ -244,6 +253,9 @@ public static class HvSocket
     /// </returns>
     /// <remarks>
     /// <para>
+    ///   This socket option was introduced in Windows 10, version 1709 (build 16299).
+    /// </para>
+    /// <para>
     ///   The behavior of this function is undefined if the socket is not a Hyper-V socket.
     /// </para>
     /// </remarks>
@@ -251,7 +263,7 @@ public static class HvSocket
     /// <paramref name="socket"/> is <see langword="null"/>.
     /// </exception>
 #if NET6_0_OR_GREATER
-    [SupportedOSPlatform("windows")]
+    [SupportedOSPlatform("windows10.0.16299")]
 #endif
     public static bool GetConnectedSuspend(Socket socket)
     {
@@ -272,6 +284,9 @@ public static class HvSocket
     /// <see langword="false"/>.
     /// </param>
     /// <remarks>
+    /// <para>
+    ///   This socket option was introduced in Windows 11, version 22h2 (build 22621).
+    /// </para>
     /// <para>
     ///   The behavior of this function is undefined if the socket is not a Hyper-V socket.
     /// </para>
@@ -301,6 +316,9 @@ public static class HvSocket
     /// <see langword="false"/>.
     /// </returns>
     /// <remarks>
+    /// <para>
+    ///   This socket option was introduced in Windows 11, version 22h2 (build 22621).
+    /// </para>
     /// <para>
     ///   The behavior of this function is undefined if the socket is not a Hyper-V socket.
     /// </para>

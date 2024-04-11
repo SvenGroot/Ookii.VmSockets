@@ -12,9 +12,8 @@ public class HvSocketEndPointTest
     [TestMethod]
     public void TestConstructor()
     {
-        if (!PlatformHelper.IsWindows())
+        if (!PlatformHelper.IsWindows10OrLater())
         {
-            Assert.Inconclusive("Hyper-V sockets are only supported on Windows.");
             return;
         }
 
@@ -32,9 +31,8 @@ public class HvSocketEndPointTest
     [TestMethod]
     public void TestSerialize()
     {
-        if (!PlatformHelper.IsWindows())
+        if (!PlatformHelper.IsWindows10OrLater())
         {
-            Assert.Inconclusive("Hyper-V sockets are only supported on Windows.");
             return;
         }
 
@@ -64,9 +62,8 @@ public class HvSocketEndPointTest
     [TestMethod]
     public void TestCreate()
     {
-        if (!PlatformHelper.IsWindows())
+        if (!PlatformHelper.IsWindows10OrLater())
         {
-            Assert.Inconclusive("Hyper-V sockets are only supported on Windows.");
             return;
         }
 
@@ -83,9 +80,8 @@ public class HvSocketEndPointTest
     [TestMethod]
     public void TestEqualsAndGetHashCode()
     {
-        if (!PlatformHelper.IsWindows())
+        if (!PlatformHelper.IsWindows10OrLater())
         {
-            Assert.Inconclusive("Hyper-V sockets are only supported on Windows.");
             return;
         }
 
