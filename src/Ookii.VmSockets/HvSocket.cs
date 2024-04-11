@@ -15,25 +15,28 @@ public static class HvSocket
     /// <para>
     ///   All these options use the value of <see cref="RawProtocol"/> as the level. Use the
     ///   <see cref="SetConnectTimeout"/>, <see cref="SetConnectedSuspend"/>, and
-    ///   <see cref="SetHighVtl"/> methods to set these options.
+    ///   <see cref="SetHighVtl"/> methods to get and set these options.
     /// </para>
     /// </remarks>
     public enum SocketOption
     {
         /// <summary>
-        /// Sets the connection timeout for the socket in milliseconds.
+        /// Sets the connection timeout for the socket in milliseconds. Type: UInt32.
         /// </summary>
         ConnectTimeout = 1,
         /// <summary>
-        /// Indicates the connection will pass through to a container.
+        /// Indicates the connection will pass through to a container. A non-zero value indicates
+        /// the option is enabled. Type: UInt32.
         /// </summary>
         ContainerPassthru = 2,
         /// <summary>
-        /// Indicates that the socket will not disconnect when the VM is paused.
+        /// Indicates that the socket will not disconnect when the VM is paused. A non-zero value
+        /// indicates the option is enabled. Type: UInt32.
         /// </summary>
         ConnectedSuspend = 4,
         /// <summary>
-        /// Indicates that the socket will connect to guest VTL 2.
+        /// Indicates that the socket will connect to guest VTL 2. A non-zero value indicates the
+        /// option is enabled. Type: UInt32.
         /// </summary>
         HighVtl = 8
     }

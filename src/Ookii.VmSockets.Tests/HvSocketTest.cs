@@ -85,7 +85,6 @@ public class HvSocketTest
         Assert.IsTrue(HvSocket.GetContainerPassthru(socket));
     }
 
-
     [TestMethod]
     public void TestHighVtl()
     {
@@ -97,6 +96,5 @@ public class HvSocketTest
         using var socket = HvSocket.Create(SocketType.Stream);
         HvSocket.SetHighVtl(socket, true);
         Assert.IsTrue(HvSocket.GetHighVtl(socket));
-
     }
 }
