@@ -1,6 +1,5 @@
 ﻿using HvSocketServer;
 using Ookii.CommandLine;
-using Ookii.CommandLine.Terminal;
 using Ookii.VmSockets;
 using System.Net.Sockets;
 
@@ -16,7 +15,8 @@ if (!OperatingSystem.IsWindowsVersionAtLeast(10))
     return 1;
 }
 
-var endpoint = new HvSocketEndPoint(HvSocket.Wildcard, arguments.Port);
+var vmId = arguments.VmId ?? HvSocket.Wildcard;
+var endpoint = new HvSocketEndPoint(vmId, arguments.Port);
 using (var wrapped = LineWrappingTextWriter.ForConsoleError())
 {
     Console.ForegroundColor = ConsoleColor.Yellow;
@@ -27,7 +27,7 @@ using (var wrapped = LineWrappingTextWriter.ForConsoleError())
 
 using var listener = HvSocket.Create(SocketType.Stream);
 listener.Bind(endpoint);
-listener.Listen(0);
+listener.Listen(1);
 Console.WriteLine("Listening for connections...");
 using var socket = listener.Accept();
 Console.WriteLine($"Connected to {socket.RemoteEndPoint}");

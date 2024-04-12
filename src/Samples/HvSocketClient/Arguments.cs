@@ -4,7 +4,7 @@ using System.ComponentModel;
 namespace HvSocketClient;
 
 [GeneratedParser]
-[Description("A simple server using Hyper-V sockets.")]
+[Description("A simple client using Hyper-V sockets.")]
 partial class Arguments
 {
     [CommandLineArgument(IsPositional = true)]
@@ -12,6 +12,6 @@ partial class Arguments
     public Guid? VmId { get; set; }
 
     [CommandLineArgument(IsPositional = true)]
-    [Description("The vsock port to listen on.")]
+    [Description("The vsock port to connect to.")]
     public int Port { get; set; } = 500000;
 }

@@ -8,6 +8,10 @@ namespace HvSocketServer;
 partial class Arguments
 {
     [CommandLineArgument(IsPositional = true)]
+    [Description("The VM ID to accept connections from. If not specified, the wildcard ID is used.")]
+    public Guid? VmId { get; set; }
+
+    [CommandLineArgument(IsPositional = true)]
     [Description("The vsock port to listen on.")]
     public int Port { get; set; } = 500000;
 }
