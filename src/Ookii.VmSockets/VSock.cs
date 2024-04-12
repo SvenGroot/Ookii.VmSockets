@@ -3,6 +3,7 @@
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
+using System.Threading;
 
 namespace Ookii.VmSockets;
 
@@ -147,7 +148,7 @@ public static partial class VSock
     /// <paramref name="socket"/> is <see langword="null"/>.
     /// </exception>
     [SupportedOSPlatform("linux")]
-    public static void SetBufferSize(Socket socket, long size) => SetLongOption(socket, SocketOption.BufferSize, size);
+    public static void SetBufferSize(Socket socket, long size) => SetSocketOption(socket, SocketOption.BufferSize, size);
 
     /// <summary>
     /// Gets the buffer size for a stream socket.
@@ -163,7 +164,7 @@ public static partial class VSock
     /// <paramref name="socket"/> is <see langword="null"/>.
     /// </exception>
     [SupportedOSPlatform("linux")]
-    public static long GetBufferSize(Socket socket) => GetLongOption(socket, SocketOption.BufferSize);
+    public static long GetBufferSize(Socket socket) => GetSocketOption<long>(socket, SocketOption.BufferSize);
 
     /// <summary>
     /// Sets the minimum buffer size for a stream socket.
@@ -179,7 +180,7 @@ public static partial class VSock
     /// <paramref name="socket"/> is <see langword="null"/>.
     /// </exception>
     [SupportedOSPlatform("linux")]
-    public static void SetBufferMinSize(Socket socket, long size) => SetLongOption(socket, SocketOption.BufferMinSize, size);
+    public static void SetBufferMinSize(Socket socket, long size) => SetSocketOption(socket, SocketOption.BufferMinSize, size);
 
     /// <summary>
     /// Gets the minimum buffer size for a stream socket.
@@ -195,7 +196,7 @@ public static partial class VSock
     /// <paramref name="socket"/> is <see langword="null"/>.
     /// </exception>
     [SupportedOSPlatform("linux")]
-    public static long GetBufferMinSize(Socket socket) => GetLongOption(socket, SocketOption.BufferMinSize);
+    public static long GetBufferMinSize(Socket socket) => GetSocketOption<long>(socket, SocketOption.BufferMinSize);
 
     /// <summary>
     /// Sets the maximum buffer size for a stream socket.
@@ -211,7 +212,7 @@ public static partial class VSock
     /// <paramref name="socket"/> is <see langword="null"/>.
     /// </exception>
     [SupportedOSPlatform("linux")]
-    public static void SetBufferMaxSize(Socket socket, long size) => SetLongOption(socket, SocketOption.BufferMaxSize, size);
+    public static void SetBufferMaxSize(Socket socket, long size) => SetSocketOption(socket, SocketOption.BufferMaxSize, size);
 
     /// <summary>
     /// Gets the maximum buffer size for a stream socket.
@@ -227,7 +228,25 @@ public static partial class VSock
     /// <paramref name="socket"/> is <see langword="null"/>.
     /// </exception>
     [SupportedOSPlatform("linux")]
-    public static long GetBufferMaxSize(Socket socket) => GetLongOption(socket, SocketOption.BufferMaxSize);
+    public static long GetBufferMaxSize(Socket socket) => GetSocketOption<long>(socket, SocketOption.BufferMaxSize);
+
+    /// <summary>
+    /// Gets the host-specific VM ID of the peer.
+    /// </summary>
+    /// <param name="socket">A VSock socket.</param>
+    /// <returns>The peer VM ID.</returns>
+    /// <remarks>
+    /// <para>
+    ///   This option is only available for hypervisor endpoints.
+    /// </para>
+    /// <para>
+    ///   The behavior of this function is undefined if the socket is not a VSock socket.
+    /// </para>
+    /// </remarks>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="socket"/> is <see langword="null"/>.
+    /// </exception>
+    public static int GetPeerHostVmId(Socket socket) => GetSocketOption<int>(socket, SocketOption.PeerHostVmId);
 
     /// <summary>
     /// Gets the host-specific VM ID of the peer.
@@ -242,30 +261,7 @@ public static partial class VSock
     /// <exception cref="ArgumentNullException">
     /// <paramref name="socket"/> is <see langword="null"/>.
     /// </exception>
-    public static int GetPeerHostVmId(Socket socket)
-    {
-        ArgumentNullException.ThrowIfNull(socket);
-        return (int)socket.GetSocketOption((SocketOptionLevel)AddressFamily, (SocketOptionName)SocketOption.PeerHostVmId)!;
-    }
-
-    /// <summary>
-    /// Gets the host-specific VM ID of the peer.
-    /// </summary>
-    /// <param name="socket">A VSock socket.</param>
-    /// <returns>The peer VM ID.</returns>
-    /// <remarks>
-    /// <para>
-    ///   The behavior of this function is undefined if the socket is not a VSock socket.
-    /// </para>
-    /// </remarks>
-    /// <exception cref="ArgumentNullException">
-    /// <paramref name="socket"/> is <see langword="null"/>.
-    /// </exception>
-    public static bool GetTrusted(Socket socket)
-    {
-        ArgumentNullException.ThrowIfNull(socket);
-        return (int)socket.GetSocketOption((SocketOptionLevel)AddressFamily, (SocketOptionName)SocketOption.Trusted)! != 0;
-    }
+    public static bool GetTrusted(Socket socket) => GetSocketOption<int>(socket, SocketOption.Trusted) != 0;
 
     /// <summary>
     /// Sets the connect timeout for a stream socket.
@@ -281,14 +277,7 @@ public static partial class VSock
     /// <paramref name="socket"/> is <see langword="null"/>.
     /// </exception>
     [SupportedOSPlatform("linux")]
-    public static void SetConnectTimeout(Socket socket, TimeSpan timeout)
-    {
-        ArgumentNullException.ThrowIfNull(socket);
-
-        var value = new Timeval() { tv_sec = (long)timeout.TotalSeconds, tv_usec = timeout.Milliseconds * 1000 + timeout.Microseconds };
-        var buffer = MemoryMarshal.AsBytes(MemoryMarshal.CreateReadOnlySpan(ref value, 1));
-        socket.SetRawSocketOption((int)AddressFamily, (int)SocketOption.ConnectTimeout, buffer);
-    }
+    public static void SetConnectTimeout(Socket socket, TimeSpan timeout) => SetSocketOption(socket, SocketOption.ConnectTimeout, new Timeval(timeout));
 
     /// <summary>
     /// Gets the connect timeout for a stream socket.
@@ -304,17 +293,10 @@ public static partial class VSock
     /// <paramref name="socket"/> is <see langword="null"/>.
     /// </exception>
     [SupportedOSPlatform("linux")]
-    public static TimeSpan GetConnectTimeout(Socket socket)
-    {
-        ArgumentNullException.ThrowIfNull(socket);
+    public static TimeSpan GetConnectTimeout(Socket socket) => GetSocketOption<Timeval>(socket, SocketOption.ConnectTimeout).ToTimeSpan();
 
-        Timeval value = default;
-        var buffer = MemoryMarshal.AsBytes(MemoryMarshal.CreateSpan(ref value, 1));
-        socket.GetRawSocketOption((int)AddressFamily, (int)SocketOption.ConnectTimeout, buffer);
-        return TimeSpan.FromSeconds(value.tv_sec) + TimeSpan.FromMicroseconds(value.tv_usec);
-    }
-
-    private static void SetLongOption(Socket socket, SocketOption option, long value)
+    private static void SetSocketOption<T>(Socket socket, SocketOption option, T value)
+        where T: struct
     {
         ArgumentNullException.ThrowIfNull(socket);
 
@@ -322,11 +304,12 @@ public static partial class VSock
         socket.SetRawSocketOption((int)AddressFamily, (int)option, buffer);
     }
 
-    private static long GetLongOption(Socket socket, SocketOption option)
+    private static T GetSocketOption<T>(Socket socket, SocketOption option)
+        where T: struct
     {
         ArgumentNullException.ThrowIfNull(socket);
 
-        long result = 0;
+        T result = default;
         var buffer = MemoryMarshal.AsBytes(MemoryMarshal.CreateSpan(ref result, 1));
         socket.GetRawSocketOption((int)AddressFamily, (int)option, buffer);
         return result;
@@ -338,6 +321,14 @@ public static partial class VSock
     [StructLayout(LayoutKind.Sequential)]
     private struct Timeval
     {
+        public Timeval(TimeSpan value)
+        {
+            tv_sec = (long)value.TotalSeconds;
+            tv_usec = value.Milliseconds * 1000 + value.Microseconds;
+        }
+
+        public TimeSpan ToTimeSpan() => TimeSpan.FromSeconds(tv_sec) + TimeSpan.FromMicroseconds(tv_usec);
+
         public long tv_sec;
         public long tv_usec;
     }

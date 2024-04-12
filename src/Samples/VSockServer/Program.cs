@@ -22,6 +22,7 @@ listener.Listen(1);
 Console.WriteLine("Listening for connections...");
 using var socket = listener.Accept();
 Console.WriteLine($"Connected to {socket.RemoteEndPoint}");
+Console.WriteLine(VSock.GetTrusted(socket));
 using var stream = new NetworkStream(socket, true);
 using var reader = new BinaryReader(stream);
 using var writer = new BinaryWriter(stream);
