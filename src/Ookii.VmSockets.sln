@@ -11,7 +11,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Directory.Build.props = Directory.Build.props
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ookii.VmSockets.Tests", "Ookii.VmSockets.Tests\Ookii.VmSockets.Tests.csproj", "{4B8C4D90-AF0C-4EB0-95BE-49CCA087CC35}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ookii.VmSockets.Tests", "Ookii.VmSockets.Tests\Ookii.VmSockets.Tests.csproj", "{4B8C4D90-AF0C-4EB0-95BE-49CCA087CC35}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{83EA06EB-2AEC-4555-8684-F8C3B41E6D1F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HvSocketServer", "Samples\HvSocketServer\HvSocketServer.csproj", "{F866D8E8-1250-4499-B9AB-F61647CA6C41}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HvSocketClient", "Samples\HvSocketClient\HvSocketClient.csproj", "{9C024BAD-EAE0-4844-9393-06454848172A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,9 +33,21 @@ Global
 		{4B8C4D90-AF0C-4EB0-95BE-49CCA087CC35}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B8C4D90-AF0C-4EB0-95BE-49CCA087CC35}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B8C4D90-AF0C-4EB0-95BE-49CCA087CC35}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F866D8E8-1250-4499-B9AB-F61647CA6C41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F866D8E8-1250-4499-B9AB-F61647CA6C41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F866D8E8-1250-4499-B9AB-F61647CA6C41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F866D8E8-1250-4499-B9AB-F61647CA6C41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C024BAD-EAE0-4844-9393-06454848172A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C024BAD-EAE0-4844-9393-06454848172A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C024BAD-EAE0-4844-9393-06454848172A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C024BAD-EAE0-4844-9393-06454848172A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F866D8E8-1250-4499-B9AB-F61647CA6C41} = {83EA06EB-2AEC-4555-8684-F8C3B41E6D1F}
+		{9C024BAD-EAE0-4844-9393-06454848172A} = {83EA06EB-2AEC-4555-8684-F8C3B41E6D1F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {054DCB01-E04B-4A78-B397-7234057F25BA}
