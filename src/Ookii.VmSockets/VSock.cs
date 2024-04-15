@@ -249,6 +249,7 @@ public static partial class VSock
     /// <exception cref="ArgumentNullException">
     /// <paramref name="socket"/> is <see langword="null"/>.
     /// </exception>
+    [SupportedOSPlatform("linux")]
     public static int GetPeerHostVmId(Socket socket) => GetSocketOption<int>(socket, SocketOption.PeerHostVmId);
 
     /// <summary>
@@ -264,6 +265,7 @@ public static partial class VSock
     /// <exception cref="ArgumentNullException">
     /// <paramref name="socket"/> is <see langword="null"/>.
     /// </exception>
+    [SupportedOSPlatform("linux")]
     public static bool GetTrusted(Socket socket) => GetSocketOption<int>(socket, SocketOption.Trusted) != 0;
 
     /// <summary>
