@@ -1,5 +1,8 @@
 ﻿#if NET8_0_OR_GREATER
 
+using Microsoft.Win32.SafeHandles;
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
@@ -295,6 +298,38 @@ public static partial class VSock
     [SupportedOSPlatform("linux")]
     public static TimeSpan GetConnectTimeout(Socket socket) => GetSocketOption<Timeval>(socket, SocketOption.ConnectTimeout).ToTimeSpan();
 
+    /// <summary>
+    /// Gets the CID of the local machine.
+    /// </summary>
+    /// <returns>The context ID.</returns>
+    /// <exception cref="UnauthorizedAccessException">
+    /// Retrieving the local context ID requires root privileges.
+    /// </exception>
+    /// <exception cref="FileNotFoundException">
+    /// The /dev/vsock device was not found.
+    /// </exception>
+    /// <exception cref="Win32Exception">
+    /// An error occurred retrieving the local CID.
+    /// </exception>
+    [SupportedOSPlatform("linux")]
+    public static int GetLocalCid()
+    {
+
+        int value = 0;
+        using var file = open(VSockDevice, 0);
+        if (file.IsInvalid)
+        {
+            ThrowExceptionForLastError();
+        }
+
+        if (ioctl(file, IOCTL_VM_SOCKETS_GET_LOCAL_CID, ref value) < 0)
+        {
+            ThrowExceptionForLastError();
+        }
+
+        return value;
+    }
+
     private static void SetSocketOption<T>(Socket socket, SocketOption option, T value)
         where T: struct
     {
@@ -315,8 +350,37 @@ public static partial class VSock
         return result;
     }
 
+    [DoesNotReturn]
+    private static void ThrowExceptionForLastError()
+    {
+        var error = Marshal.GetLastPInvokeError();
+        throw error switch
+        {
+            EPERM => new UnauthorizedAccessException(),
+            ENOENT => new FileNotFoundException(null, VSockDevice),
+            EACCES => new UnauthorizedAccessException(),
+            _ => new Win32Exception(error),
+        };
+    }
+
+    #region PInvoke
+
+    private const int IOCTL_VM_SOCKETS_GET_LOCAL_CID = 0x7b9;
+
+    private const int EPERM = 1;
+    private const int ENOENT = 2;
+    private const int EACCES = 13;
+
+    private const string VSockDevice = "/dev/vsock";
+
     [LibraryImport("libc", SetLastError = true)]
     private static partial SafeSocketHandle socket(int domain, int type, int protocol);
+
+    [LibraryImport("libc", SetLastError = true)]
+    private static partial SafeFileHandle open([MarshalAs(UnmanagedType.LPStr)] string path, int flags);
+
+    [LibraryImport("libc", SetLastError = true)]
+    private static partial int ioctl(SafeFileHandle socket, int request, ref int value);
 
     [StructLayout(LayoutKind.Sequential)]
     private struct Timeval
@@ -327,11 +391,13 @@ public static partial class VSock
             tv_usec = value.Milliseconds * 1000 + value.Microseconds;
         }
 
-        public TimeSpan ToTimeSpan() => TimeSpan.FromSeconds(tv_sec) + TimeSpan.FromMicroseconds(tv_usec);
+        public readonly TimeSpan ToTimeSpan() => TimeSpan.FromSeconds(tv_sec) + TimeSpan.FromMicroseconds(tv_usec);
 
         public long tv_sec;
         public long tv_usec;
     }
+
+    #endregion
 }
 
 #endif

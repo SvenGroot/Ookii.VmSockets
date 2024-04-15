@@ -58,6 +58,26 @@ public class VSockTest
         // be done with a loopback connection, but that requires a specific kernel config which is
         // not guaranteed to be available (currently, it's not in WSL).
     }
+
+    [TestMethod]
+    public void TestGetLocalCid()
+    {
+        if (!OperatingSystem.IsLinux())
+        {
+            Assert.Inconclusive("VSock sockets are only supported on Linux.");
+            return;
+        }
+
+        try
+        {
+            var cid = VSock.GetLocalCid();
+            Assert.AreNotEqual(0, cid);
+        }
+        catch (UnauthorizedAccessException)
+        {
+            Assert.Inconclusive("This test requires root privileges.");
+        }
+    }
 }
 
 #endif
