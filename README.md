@@ -6,6 +6,8 @@ machine, on Windows Hyper-V and on Linux respectively. A Linux guest, including 
 Subsystem for Linux (WSL) using VSock can also communicate with a Windows host using Hyper-V
 sockets.
 
+To get started, keep reading or check out the [samples](src/Samples).
+
 ## Hyper-V sockets
 
 Hyper-V sockets are sockets using the `AF_HYPERV` address family. They provide a method for a
