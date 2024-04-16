@@ -14,7 +14,7 @@ to parse command-line arguments). For more information, run `./HvSocketServer -H
 Use the `Get-VM` PowerShell cmdlet to get the VM ID for a particular VM.
 
 > [!IMPORTANT]
-> When running this service on the host on Windows, you must
+> When running this server on the host on Windows, you must
 > [add your service ID to the registry](https://learn.microsoft.com/virtualization/hyper-v-on-windows/user-guide/make-integration-service).
 > Use [host_default_service_id.reg](host_default_service_id.reg) to add registry entries for the
 > default service ID using VSock port 500000. If you run the server in a guest, and the client on
