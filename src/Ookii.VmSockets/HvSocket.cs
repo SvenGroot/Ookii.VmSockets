@@ -12,6 +12,7 @@ namespace Ookii.VmSockets;
 /// </note>
 /// </remarks>
 /// <threadsafety instance="false" static="true" />
+/// <seealso href="https://learn.microsoft.com/virtualization/hyper-v-on-windows/user-guide/make-integration-service">Hyper-V socket integration services</seealso>
 public static class HvSocket
 {
     /// <summary>

@@ -14,11 +14,11 @@ Hyper-V sockets are sockets using the `AF_HYPERV` address family. They provide a
 Windows host to communicate with a guest VM using regular socket APIs. Hvsockets are supported
 on Windows 10 and later.
 
-Ookii.VmSockets provides the `HvSocketEndPoint` class, which allows you to listen or connect using
-Hyper-V sockets with the .Net `Socket` class. Hvsocket endpoints are identified using a VM ID and
-a service ID. Additionally, the `HvSocket` class provides a number of helper methods to create a
-socket or set socket options, as well as constants for well-known VM IDs such as `HvSocket.Parent`
-and `HvSocket.Wildcard`.
+Ookii.VmSockets provides the [`HvSocketEndPoint`][] class, which allows you to listen or connect
+using Hyper-V sockets with the .Net [`Socket`][] class. Hvsocket endpoints are identified using a VM
+ID and a service ID. Additionally, the [`HvSocket`][] class provides a number of helper methods to
+create a socket or set socket options, as well as constants for well-known VM IDs such as
+[`HvSocket.Parent`][] and [`HvSocket.Wildcard`][].
 
 For example, the following creates a server socket that listens for connections from any source,
 where `ServiceId` is a GUID that represents your service:
@@ -34,11 +34,11 @@ var socket = server.Accept();
 > When using hvsocket on the host to listen for connections from a guest, you must
 > [add your service ID to the registry](https://learn.microsoft.com/virtualization/hyper-v-on-windows/user-guide/make-integration-service).
 > This is not required if a guest listens for connections from the host, with the client using
-> `Socket.Connect` running on the host.
+> [`Socket.Connect()`][] running on the host.
 
-The `HvSocketEndPoint` class can connect to a Linux guest using VSock by using the
-`HvSocketEndPoint(Guid, int)` constructor, specifying a VSock port number instead of a service ID.
-The below example connects to a Linux VM:
+The [`HvSocketEndPoint`][] class can connect to a Linux guest using VSock by using the
+[`HvSocketEndPoint(Guid, int)`][] constructor, specifying a VSock port number instead of a service
+ID. The below example connects to a Linux VM:
 
 ```csharp
 public Socket ConnectToLinuxVm(Guid vmId, int port)
@@ -68,14 +68,15 @@ which uses the `AF_VSOCK` address family.
 > Due to limitations[^1] in the .Net sockets implementation on Linux, VSock support is only
 > available for .Net 8.0 and later.
 
-Ookii.VmSockets provides the `VSockEndPoint` class to represent a VSock address, which consists of
-a context ID (CID) and port number. The `VSock` class provides helper functions and constants.
+Ookii.VmSockets provides the [`VSockEndPoint`][] class to represent a VSock address, which consists
+of a context ID (CID) and port number. The [`VSock`][] class provides helper functions and
+constants.
 
 > [!IMPORTANT]
-> Unlike with hvsockets, you *must* use the `VSock.Create()` method to create a VSock socket,
-> because on Linux, the regular `Socket` class constructor does not allow the use of address
-> families other than the ones predefined by .Net. The `VSock.Create()` method uses PInvoke with the
-> libc `socket` function to create the socket instead.
+> Unlike with hvsockets, you *must* use the [`VSock.Create()`][] method to create a VSock socket,
+> because on Linux, the regular [`Socket`][] class constructor does not allow the use of address
+> families other than the ones predefined by .Net. The [`VSock.Create()`][] method uses PInvoke with
+> the libc `socket` function to create the socket instead.
 
 The following example listens for connections on port 50000:
 
@@ -86,7 +87,7 @@ server.Listen(1);
 var socket = server.Accept();
 ```
 
-Because of the limitations imposed by .Net, some properties of the `Socket` class may not return
+Because of the limitations imposed by .Net, some properties of the [`Socket`][] class may not return
 the correct values when using VSock sockets.
 
 ## Requirements
@@ -125,8 +126,19 @@ The class library documentation is generated using [Sandcastle Help File Builder
 
 [^1]: In .Net on Linux, it is not possible to create an instance of the `SocketAddress` class with
     an address family that is not predefined by .Net. In .Net 8, this can be worked around by
-    directly modifying the address family in the buffer of the `SocketAddress` instance, but
+    directly modifying the address family in the buffer of the [`SocketAddress`][] instance, but
     accessing the buffer in this way is only possible in .Net 8 and later. Without this ability,
-    it's not possible to write a functional `VSockEndPoint` class.
+    it's not possible to write a functional [`VSockEndPoint`][] class.
 
 [`Get-VM`]: https://learn.microsoft.com/powershell/module/hyper-v/get-vm?view=windowsserver2022-ps
+[`HvSocket.Parent`]: https://www.ookii.org/docs/vmsockets-1.0/html/F_Ookii_VmSockets_HvSocket_Parent.htm
+[`HvSocket.Wildcard`]: https://www.ookii.org/docs/vmsockets-1.0/html/F_Ookii_VmSockets_HvSocket_Wildcard.htm
+[`HvSocket`]: https://www.ookii.org/docs/vmsockets-1.0/html/T_Ookii_VmSockets_HvSocket.htm
+[`HvSocketEndPoint(Guid, int)`]: https://www.ookii.org/docs/vmsockets-1.0/html/M_Ookii_VmSockets_HvSocketEndPoint__ctor_1.htm
+[`HvSocketEndPoint`]: https://www.ookii.org/docs/vmsockets-1.0/html/T_Ookii_VmSockets_HvSocketEndPoint.htm
+[`Socket.Connect()`]: https://learn.microsoft.com/dotnet/api/system.net.sockets.socket.connect
+[`Socket`]: https://learn.microsoft.com/dotnet/api/system.net.sockets.socket
+[`SocketAddress`]: https://learn.microsoft.com/dotnet/api/system.net.socketaddress
+[`VSock.Create()`]: https://www.ookii.org/docs/vmsockets-1.0/html/M_Ookii_VmSockets_VSock_Create.htm
+[`VSock`]: https://www.ookii.org/docs/vmsockets-1.0/html/T_Ookii_VmSockets_VSock.htm
+[`VSockEndPoint`]: https://www.ookii.org/docs/vmsockets-1.0/html/T_Ookii_VmSockets_VSockEndPoint.htm
