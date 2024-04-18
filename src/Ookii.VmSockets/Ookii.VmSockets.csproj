@@ -9,9 +9,24 @@
     <AssemblyOriginatorKeyFile>ookii.snk</AssemblyOriginatorKeyFile>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>Ookii.VmSockets</Title>
+    <Description>A .Net class library that provides support for Hyper-V sockets (hvsocket, AF_HYPERV) and Linux VSock (AF_VSOCK) sockets.</Description>
+    <PackageProjectUrl>https://github.com/SvenGroot/Ookii.VmSockets</PackageProjectUrl>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageReadmeFile>PackageReadme.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/SvenGroot/Ookii.VmSockets</RepositoryUrl>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>sockets socket hvsocket vsock virtual machine vm hyper-v kvm</PackageTags>
+    <PackageReleaseNotes>For details, please view: https://www.ookii.org/Link/VmSocketsVersionHistory</PackageReleaseNotes>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <IncludeSymbols>True</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
-  <PropertyGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net8.0'))">
+  <PropertyGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net6.0'))">
     <IsTrimmable>True</IsTrimmable>
     <IsAotCompatible>True</IsAotCompatible>
   </PropertyGroup>
@@ -29,6 +44,11 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="icon.png" Pack="True" PackagePath="" />
+    <None Include="PackageReadme.md" Pack="True" PackagePath="" />
   </ItemGroup>
 
 </Project>
