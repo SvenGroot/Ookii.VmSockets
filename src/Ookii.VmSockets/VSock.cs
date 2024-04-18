@@ -15,10 +15,15 @@ namespace Ookii.VmSockets;
 /// </summary>
 /// <remarks>
 /// <note type="important">
+///   The functionality defined in this class is only available on Linux kernels that support the
+///   <c>AF_VSOCK</c> address family.
+/// </note>
+/// <note type="important">
 ///   Due to limitations in the Sockets API on the Linux version of .Net, this class is only
 ///   available for .Net 8.0 and later.
 /// </note>
 /// </remarks>
+/// <threadsafety instance="false" static="true" />
 public static partial class VSock
 {
     /// <summary>
@@ -27,7 +32,7 @@ public static partial class VSock
     /// <remarks>
     /// <para>
     ///   All these options use the value of <see cref="AddressFamily"/> as the level. Use the
-    ///   helper functions in this class to get and set these options.
+    ///   helper functions in the <see cref="VSock"/> class to get and set these options.
     /// </para>
     /// </remarks>
     public enum SocketOption
@@ -150,6 +155,12 @@ public static partial class VSock
     /// <exception cref="ArgumentNullException">
     /// <paramref name="socket"/> is <see langword="null"/>.
     /// </exception>
+    /// <exception cref="ObjectDisposedException">
+    /// The <see cref="Socket"/> object has been closed.
+    /// </exception>
+    /// <exception cref="SocketException">
+    /// An error occurred when attempting to access the socket.
+    /// </exception>
     [SupportedOSPlatform("linux")]
     public static void SetBufferSize(Socket socket, long size) => SetSocketOption(socket, SocketOption.BufferSize, size);
 
@@ -165,6 +176,12 @@ public static partial class VSock
     /// </remarks>
     /// <exception cref="ArgumentNullException">
     /// <paramref name="socket"/> is <see langword="null"/>.
+    /// </exception>
+    /// <exception cref="ObjectDisposedException">
+    /// The <see cref="Socket"/> object has been closed.
+    /// </exception>
+    /// <exception cref="SocketException">
+    /// An error occurred when attempting to access the socket.
     /// </exception>
     [SupportedOSPlatform("linux")]
     public static long GetBufferSize(Socket socket) => GetSocketOption<long>(socket, SocketOption.BufferSize);
@@ -182,6 +199,12 @@ public static partial class VSock
     /// <exception cref="ArgumentNullException">
     /// <paramref name="socket"/> is <see langword="null"/>.
     /// </exception>
+    /// <exception cref="ObjectDisposedException">
+    /// The <see cref="Socket"/> object has been closed.
+    /// </exception>
+    /// <exception cref="SocketException">
+    /// An error occurred when attempting to access the socket.
+    /// </exception>
     [SupportedOSPlatform("linux")]
     public static void SetBufferMinSize(Socket socket, long size) => SetSocketOption(socket, SocketOption.BufferMinSize, size);
 
@@ -197,6 +220,12 @@ public static partial class VSock
     /// </remarks>
     /// <exception cref="ArgumentNullException">
     /// <paramref name="socket"/> is <see langword="null"/>.
+    /// </exception>
+    /// <exception cref="ObjectDisposedException">
+    /// The <see cref="Socket"/> object has been closed.
+    /// </exception>
+    /// <exception cref="SocketException">
+    /// An error occurred when attempting to access the socket.
     /// </exception>
     [SupportedOSPlatform("linux")]
     public static long GetBufferMinSize(Socket socket) => GetSocketOption<long>(socket, SocketOption.BufferMinSize);
@@ -214,6 +243,12 @@ public static partial class VSock
     /// <exception cref="ArgumentNullException">
     /// <paramref name="socket"/> is <see langword="null"/>.
     /// </exception>
+    /// <exception cref="ObjectDisposedException">
+    /// The <see cref="Socket"/> object has been closed.
+    /// </exception>
+    /// <exception cref="SocketException">
+    /// An error occurred when attempting to access the socket.
+    /// </exception>
     [SupportedOSPlatform("linux")]
     public static void SetBufferMaxSize(Socket socket, long size) => SetSocketOption(socket, SocketOption.BufferMaxSize, size);
 
@@ -229,6 +264,12 @@ public static partial class VSock
     /// </remarks>
     /// <exception cref="ArgumentNullException">
     /// <paramref name="socket"/> is <see langword="null"/>.
+    /// </exception>
+    /// <exception cref="ObjectDisposedException">
+    /// The <see cref="Socket"/> object has been closed.
+    /// </exception>
+    /// <exception cref="SocketException">
+    /// An error occurred when attempting to access the socket.
     /// </exception>
     [SupportedOSPlatform("linux")]
     public static long GetBufferMaxSize(Socket socket) => GetSocketOption<long>(socket, SocketOption.BufferMaxSize);
@@ -249,6 +290,12 @@ public static partial class VSock
     /// <exception cref="ArgumentNullException">
     /// <paramref name="socket"/> is <see langword="null"/>.
     /// </exception>
+    /// <exception cref="ObjectDisposedException">
+    /// The <see cref="Socket"/> object has been closed.
+    /// </exception>
+    /// <exception cref="SocketException">
+    /// An error occurred when attempting to access the socket.
+    /// </exception>
     [SupportedOSPlatform("linux")]
     public static int GetPeerHostVmId(Socket socket) => GetSocketOption<int>(socket, SocketOption.PeerHostVmId);
 
@@ -264,6 +311,12 @@ public static partial class VSock
     /// </remarks>
     /// <exception cref="ArgumentNullException">
     /// <paramref name="socket"/> is <see langword="null"/>.
+    /// </exception>
+    /// <exception cref="ObjectDisposedException">
+    /// The <see cref="Socket"/> object has been closed.
+    /// </exception>
+    /// <exception cref="SocketException">
+    /// An error occurred when attempting to access the socket.
     /// </exception>
     [SupportedOSPlatform("linux")]
     public static bool GetTrusted(Socket socket) => GetSocketOption<int>(socket, SocketOption.Trusted) != 0;
@@ -281,6 +334,12 @@ public static partial class VSock
     /// <exception cref="ArgumentNullException">
     /// <paramref name="socket"/> is <see langword="null"/>.
     /// </exception>
+    /// <exception cref="ObjectDisposedException">
+    /// The <see cref="Socket"/> object has been closed.
+    /// </exception>
+    /// <exception cref="SocketException">
+    /// An error occurred when attempting to access the socket.
+    /// </exception>
     [SupportedOSPlatform("linux")]
     public static void SetConnectTimeout(Socket socket, TimeSpan timeout) => SetSocketOption(socket, SocketOption.ConnectTimeout, new Timeval(timeout));
 
@@ -296,6 +355,12 @@ public static partial class VSock
     /// </remarks>
     /// <exception cref="ArgumentNullException">
     /// <paramref name="socket"/> is <see langword="null"/>.
+    /// </exception>
+    /// <exception cref="ObjectDisposedException">
+    /// The <see cref="Socket"/> object has been closed.
+    /// </exception>
+    /// <exception cref="SocketException">
+    /// An error occurred when attempting to access the socket.
     /// </exception>
     [SupportedOSPlatform("linux")]
     public static TimeSpan GetConnectTimeout(Socket socket) => GetSocketOption<Timeval>(socket, SocketOption.ConnectTimeout).ToTimeSpan();

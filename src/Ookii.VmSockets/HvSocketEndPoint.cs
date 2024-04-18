@@ -9,6 +9,9 @@ namespace Ookii.VmSockets;
 /// Represents a Hyper-V socket (hvsocket) endpoint as a VM ID and a service ID.
 /// </summary>
 /// <remarks>
+/// <note type="important">
+///   The functionality defined in this class is only available on Windows 10 and later versions.
+/// </note>
 /// <para>
 ///   Hyper-V sockets can be used between a host and a guest virtual machine or a silo. It
 ///   provides interoperability with VSock sockets for guest partitions running Linux.

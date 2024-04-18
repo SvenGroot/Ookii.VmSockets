@@ -11,6 +11,14 @@ namespace Ookii.VmSockets;
 /// Represents a Linux VSock socket endpoint as a context ID and a port.
 /// </summary>
 /// <remarks>
+/// <note type="important">
+///   The functionality defined in this class is only available on Linux kernels that support the
+///   <c>AF_VSOCK</c> address family.
+/// </note>
+/// <note type="important">
+///   Due to limitations in the Sockets API on the Linux version of .Net, this class is only
+///   available for .Net 8.0 and later.
+/// </note>
 /// <para>
 ///   VSock sockets can be used between a host and a guest virtual machine. It provides
 ///   interoperability with Hyper-V sockets for guest partitions running Linux on a Windows host.
@@ -101,7 +109,7 @@ public class VSockEndPoint : EndPoint
     {
         ArgumentNullException.ThrowIfNull(socketAddress);
 
-        // The Family property doesn't give the right value if familiy in the buffer is not a
+        // The Family property doesn't give the right value if the family in the buffer is not a
         // known value, so we need to check the buffer directly.
         if (socketAddress.GetRealAddressFamily() != AddressFamily)
         {

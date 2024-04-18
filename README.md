@@ -115,7 +115,7 @@ The tests are built and run for .Net 8.0 and .Net Framework 4.8. The .Net Framew
 not relevant on Linux, as VSock is not supported on .Net Framework and Hyper-V sockets are not
 supported on Linux.
 
-[`Get-VM`]: https://learn.microsoft.com/powershell/module/hyper-v/get-vm?view=windowsserver2022-ps
+The class library documentation is generated using [Sandcastle Help File Builder](https://github.com/EWSoftware/SHFB).
 
 ## Learn more
 
@@ -128,3 +128,5 @@ supported on Linux.
     directly modifying the address family in the buffer of the `SocketAddress` instance, but
     accessing the buffer in this way is only possible in .Net 8 and later. Without this ability,
     it's not possible to write a functional `VSockEndPoint` class.
+
+[`Get-VM`]: https://learn.microsoft.com/powershell/module/hyper-v/get-vm?view=windowsserver2022-ps

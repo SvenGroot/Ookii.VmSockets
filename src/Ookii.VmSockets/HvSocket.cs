@@ -6,6 +6,12 @@ namespace Ookii.VmSockets;
 /// <summary>
 /// Provides constants and helper methods for working with Hyper-V sockets.
 /// </summary>
+/// <remarks>
+/// <note type="important">
+///   The functionality defined in this class is only available on Windows 10 and later versions.
+/// </note>
+/// </remarks>
+/// <threadsafety instance="false" static="true" />
 public static class HvSocket
 {
     /// <summary>
@@ -14,8 +20,7 @@ public static class HvSocket
     /// <remarks>
     /// <para>
     ///   All these options use the value of <see cref="RawProtocol"/> as the level. Use the
-    ///   <see cref="SetConnectTimeout"/>, <see cref="SetConnectedSuspend"/>, and
-    ///   <see cref="SetHighVtl"/> methods to get and set these options.
+    ///   helper methods in the <see cref="HvSocket"/> class to get and set these options.
     /// </para>
     /// </remarks>
     public enum SocketOption
@@ -155,6 +160,7 @@ public static class HvSocket
     ///   <see cref="RawProtocol"/>.
     /// </para>
     /// </remarks>
+    /// <exception cref="SocketException">The socket could not be created.</exception>
 #if NET6_0_OR_GREATER
     [SupportedOSPlatform("windows10.0")]
 #endif
@@ -175,6 +181,12 @@ public static class HvSocket
     /// </remarks>
     /// <exception cref="ArgumentNullException">
     /// <paramref name="socket"/> is <see langword="null"/>.
+    /// </exception>
+    /// <exception cref="ObjectDisposedException">
+    /// The <see cref="Socket"/> object has been closed.
+    /// </exception>
+    /// <exception cref="SocketException">
+    /// An error occurred when attempting to access the socket.
     /// </exception>
 #if NET6_0_OR_GREATER
     [SupportedOSPlatform("windows10.0.14393")]
@@ -204,6 +216,12 @@ public static class HvSocket
     /// </remarks>
     /// <exception cref="ArgumentNullException">
     /// <paramref name="socket"/> is <see langword="null"/>.
+    /// </exception>
+    /// <exception cref="ObjectDisposedException">
+    /// The <see cref="Socket"/> object has been closed.
+    /// </exception>
+    /// <exception cref="SocketException">
+    /// An error occurred when attempting to access the socket.
     /// </exception>
 #if NET6_0_OR_GREATER
     [SupportedOSPlatform("windows10.0.14393")]
@@ -236,6 +254,12 @@ public static class HvSocket
     /// </remarks>
     /// <exception cref="ArgumentNullException">
     /// <paramref name="socket"/> is <see langword="null"/>.
+    /// </exception>
+    /// <exception cref="ObjectDisposedException">
+    /// The <see cref="Socket"/> object has been closed.
+    /// </exception>
+    /// <exception cref="SocketException">
+    /// An error occurred when attempting to access the socket.
     /// </exception>
 #if NET6_0_OR_GREATER
     [SupportedOSPlatform("windows10.0.14393")]
@@ -271,6 +295,12 @@ public static class HvSocket
     /// <exception cref="ArgumentNullException">
     /// <paramref name="socket"/> is <see langword="null"/>.
     /// </exception>
+    /// <exception cref="ObjectDisposedException">
+    /// The <see cref="Socket"/> object has been closed.
+    /// </exception>
+    /// <exception cref="SocketException">
+    /// An error occurred when attempting to access the socket.
+    /// </exception>
 #if NET6_0_OR_GREATER
     [SupportedOSPlatform("windows10.0.14393")]
     [UnsupportedOSPlatform("windows10.0.22621")]
@@ -304,6 +334,12 @@ public static class HvSocket
     /// <exception cref="ArgumentNullException">
     /// <paramref name="socket"/> is <see langword="null"/>.
     /// </exception>
+    /// <exception cref="ObjectDisposedException">
+    /// The <see cref="Socket"/> object has been closed.
+    /// </exception>
+    /// <exception cref="SocketException">
+    /// An error occurred when attempting to access the socket.
+    /// </exception>
 #if NET6_0_OR_GREATER
     [SupportedOSPlatform("windows10.0.16299")]
 #endif
@@ -335,6 +371,12 @@ public static class HvSocket
     /// </remarks>
     /// <exception cref="ArgumentNullException">
     /// <paramref name="socket"/> is <see langword="null"/>.
+    /// </exception>
+    /// <exception cref="ObjectDisposedException">
+    /// The <see cref="Socket"/> object has been closed.
+    /// </exception>
+    /// <exception cref="SocketException">
+    /// An error occurred when attempting to access the socket.
     /// </exception>
 #if NET6_0_OR_GREATER
     [SupportedOSPlatform("windows10.0.16299")]
@@ -368,6 +410,12 @@ public static class HvSocket
     /// <exception cref="ArgumentNullException">
     /// <paramref name="socket"/> is <see langword="null"/>.
     /// </exception>
+    /// <exception cref="ObjectDisposedException">
+    /// The <see cref="Socket"/> object has been closed.
+    /// </exception>
+    /// <exception cref="SocketException">
+    /// An error occurred when attempting to access the socket.
+    /// </exception>
 #if NET6_0_OR_GREATER
     [SupportedOSPlatform("windows10.0.22621")]
 #endif
@@ -399,6 +447,12 @@ public static class HvSocket
     /// </remarks>
     /// <exception cref="ArgumentNullException">
     /// <paramref name="socket"/> is <see langword="null"/>.
+    /// </exception>
+    /// <exception cref="ObjectDisposedException">
+    /// The <see cref="Socket"/> object has been closed.
+    /// </exception>
+    /// <exception cref="SocketException">
+    /// An error occurred when attempting to access the socket.
     /// </exception>
 #if NET6_0_OR_GREATER
     [SupportedOSPlatform("windows10.0.22621")]
