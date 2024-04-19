@@ -8,6 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{57294355-223D-46A7-9058-7238966DB0FA}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		Create-Release.ps1 = Create-Release.ps1
 		Directory.Build.props = Directory.Build.props
 	EndProjectSection
 EndProject
@@ -19,9 +20,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HvSocketServer", "Samples\H
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HvSocketClient", "Samples\HvSocketClient\HvSocketClient.csproj", "{9C024BAD-EAE0-4844-9393-06454848172A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VSockServer", "Samples\VSockServer\VSockServer.csproj", "{00E72B2E-559D-4CE8-9D33-BC6D8138C39D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VSockServer", "Samples\VSockServer\VSockServer.csproj", "{00E72B2E-559D-4CE8-9D33-BC6D8138C39D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VSockClient", "Samples\VSockClient\VSockClient.csproj", "{6B33C43A-9941-4A04-92A9-644A6CC3C7F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VSockClient", "Samples\VSockClient\VSockClient.csproj", "{6B33C43A-9941-4A04-92A9-644A6CC3C7F3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
