@@ -1,4 +1,4 @@
-# Ookii.VmSockets [![NuGet](https://img.shields.io/nuget/v/Ookii.VmSockets)](https://www.nuget.org/packages/Ookii.VmSockets/)
+# Ookii.VmSockets
 
 Ookii.VmSockets is a library that provides support for Hyper-V sockets (hvsocket) and Linux VSock
 sockets for .Net applications. Both are used to communicate between the host and a guest virtual
