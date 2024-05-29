@@ -18,8 +18,8 @@ public class VSockEndPointTests
             return;
         }
 
-        var endpoint = new VSockEndPoint(VSock.Host, 12345);
-        Assert.AreEqual(VSock.Host, endpoint.ContextId);
+        var endpoint = new VSockEndPoint(ContextId.Host, 12345);
+        Assert.AreEqual(ContextId.Host, endpoint.ContextId);
         Assert.AreEqual(12345, endpoint.Port);
         Assert.IsFalse(endpoint.ToHost);
     }
@@ -33,13 +33,13 @@ public class VSockEndPointTests
             return;
         }
 
-        var endpoint = new VSockEndPoint(VSock.Host, 12345) { ToHost = true };
+        var endpoint = new VSockEndPoint(ContextId.Host, 12345) { ToHost = true };
         var socketAddress = endpoint.Serialize();
         var buffer = socketAddress.Buffer;
         var expected = new PlatformHelper.sockaddr_vm()
         {
             svm_family = 40,
-            svm_cid = VSock.Host,
+            svm_cid = ContextId.Host,
             svm_port = 12345,
             svm_flags = 1,
         };
@@ -59,7 +59,7 @@ public class VSockEndPointTests
             return;
         }
 
-        var endpoint = new VSockEndPoint(VSock.Local, 12345) { ToHost = true };
+        var endpoint = new VSockEndPoint(ContextId.Local, 12345) { ToHost = true };
         var socketAddress = endpoint.Serialize();
         var endpoint2 = new VSockEndPoint();
         endpoint2 = (VSockEndPoint)endpoint2.Create(socketAddress);
@@ -77,14 +77,14 @@ public class VSockEndPointTests
             return;
         }
 
-        var endpoint = new VSockEndPoint(VSock.Host, 12345);
-        var endpoint2 = new VSockEndPoint(VSock.Host, 12345);
+        var endpoint = new VSockEndPoint(ContextId.Host, 12345);
+        var endpoint2 = new VSockEndPoint(ContextId.Host, 12345);
         Assert.AreEqual(endpoint, endpoint2);
         Assert.AreEqual(endpoint.GetHashCode(), endpoint2.GetHashCode());
-        endpoint2.ContextId = VSock.Local;
+        endpoint2.ContextId = ContextId.Local;
         Assert.AreNotEqual(endpoint, endpoint2);
         Assert.AreNotEqual(endpoint.GetHashCode(), endpoint2.GetHashCode());
-        endpoint2.ContextId = VSock.Host;
+        endpoint2.ContextId = ContextId.Host;
         endpoint2.Port = 42;
         Assert.AreNotEqual(endpoint, endpoint2);
         Assert.AreNotEqual(endpoint.GetHashCode(), endpoint2.GetHashCode());
@@ -106,7 +106,7 @@ public class VSockEndPointTests
             return;
         }
 
-        var endpoint = new VSockEndPoint(VSock.Host, 12345);
+        var endpoint = new VSockEndPoint(ContextId.Host, 12345);
         Assert.AreEqual("vsock[2:12345]", endpoint.ToString());
     }
 }

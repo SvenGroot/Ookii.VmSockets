@@ -15,7 +15,7 @@ if (!OperatingSystem.IsLinux())
 }
 
 using var socket = VSock.Create(SocketType.Stream);
-var contextId = arguments.ContextId ?? VSock.Host;
+var contextId = arguments.ContextId ?? ContextId.Host;
 var endpoint = new VSockEndPoint(contextId, arguments.Port);
 Console.WriteLine($"Connecting to {endpoint}...");
 socket.Connect(endpoint);

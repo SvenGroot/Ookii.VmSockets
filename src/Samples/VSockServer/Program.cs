@@ -15,7 +15,7 @@ if (!OperatingSystem.IsLinux())
     return 1;
 }
 
-var endpoint = new VSockEndPoint(VSock.Any, arguments.Port);
+var endpoint = new VSockEndPoint(ContextId.Any, arguments.Port);
 using var listener = VSock.Create(SocketType.Stream);
 listener.Bind(endpoint);
 listener.Listen(1);

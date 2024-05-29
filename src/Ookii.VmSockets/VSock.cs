@@ -76,35 +76,15 @@ public static partial class VSock
     public const int SocketAddressSize = 16;
 
     /// <summary>
-    /// Wildcard CID or port for VSock sockets.
+    /// Wildcard port for VSock sockets.
     /// </summary>
     /// <remarks>
     /// <para>
-    ///   This value can be used as the CID or port in a <see cref="VSockEndPoint"/> to bind to
-    ///   any CID or any available port.
+    ///   This value can be used as the port in a <see cref="VSockEndPoint"/> to bind to any
+    ///   available port.
     /// </para>
     /// </remarks>
-    public const int Any = -1;
-
-    /// <summary>
-    /// Destination CID used to refer to the hypervisor.
-    /// </summary>
-    public const int Hypervisor = 0;
-
-    /// <summary>
-    /// Loopback address for VSock sockets.
-    /// </summary>
-    public const int Local = 1;
-
-    /// <summary>
-    /// Host address for VSock sockets.
-    /// </summary>
-    /// <remarks>
-    /// <para>
-    ///   This context ID refers to any process running on the host, other than the hypervisor.
-    /// </para>
-    /// </remarks>
-    public const int Host = 2;
+    public const int AnyPort = -1;
 
     /// <summary>
     /// Creates a new VSock socket.

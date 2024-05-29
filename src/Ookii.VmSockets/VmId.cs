@@ -1,7 +1,7 @@
 ﻿namespace Ookii.VmSockets;
 
 /// <summary>
-/// Defines well-known VM IDs for Hyper-V sockets.
+/// Provides well-known VM IDs for Hyper-V sockets.
 /// </summary>
 /// <seealso cref="HvSocketEndPoint.VmId" qualifyHint="true"/>
 public static class VmId

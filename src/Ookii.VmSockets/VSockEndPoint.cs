@@ -35,13 +35,14 @@ public class VSockEndPoint : EndPoint
     /// </summary>
     /// <param name="contextId">
     /// Context ID identifying the destination. This can be one of the well known CID values
-    /// <see cref="VSock.Any" qualifyHint="true"/>, <see cref="VSock.Hypervisor" qualifyHint="true"/>,
-    /// <see cref="VSock.Local" qualifyHint="true"/>, or <see cref="VSock.Host" qualifyHint="true"/>.
+    /// <see cref="ContextId.Any" qualifyHint="true"/>, <see cref="ContextId.Hypervisor" qualifyHint="true"/>,
+    /// <see cref="ContextId.Local" qualifyHint="true"/>, or <see cref="ContextId.Host" qualifyHint="true"/>.
     /// </param>
     /// <param name="port">
-    /// The port number, or <see cref="VSock.Any" qualifyHint="true"/> to bind to any available port.
+    /// The port number, or <see cref="VSock.AnyPort" qualifyHint="true"/> to bind to any available
+    /// port.
     /// </param>
-    public VSockEndPoint(int contextId = VSock.Any, int port = VSock.Any)
+    public VSockEndPoint(int contextId = VmSockets.ContextId.Any, int port = VSock.AnyPort)
     {
         ContextId = contextId;
         Port = port;
@@ -60,9 +61,8 @@ public class VSockEndPoint : EndPoint
     /// </summary>
     /// <remarks>
     /// <para>
-    /// This can be one of the well known CID values <see cref="VSock.Any" qualifyHint="true"/>,
-    /// <see cref="VSock.Hypervisor" qualifyHint="true"/>, <see cref="VSock.Local" qualifyHint="true"/>,
-    /// or <see cref="VSock.Host" qualifyHint="true"/>.
+    /// This can be one of the well known CID values defined in the
+    /// <see cref="VmSockets.ContextId"/> class.
     /// </para>
     /// </remarks>
     public int ContextId { get; set; }
@@ -72,7 +72,7 @@ public class VSockEndPoint : EndPoint
     /// </summary>
     /// <remarks>
     /// <para>
-    ///   Use <see cref="VSock.Any" qualifyHint="true"/> to bind to any available port.
+    ///   Use <see cref="VSock.AnyPort" qualifyHint="true"/> to bind to any available port.
     /// </para>
     /// </remarks>
     public int Port { get; set; }

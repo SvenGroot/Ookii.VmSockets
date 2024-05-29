@@ -13,10 +13,7 @@ public class VSockTest
     {
         Assert.AreEqual(40, (int)VSock.AddressFamily);
         Assert.AreEqual(Marshal.SizeOf<PlatformHelper.sockaddr_vm>(), VSock.SocketAddressSize);
-        Assert.AreEqual(-1, VSock.Any);
-        Assert.AreEqual(0, VSock.Hypervisor);
-        Assert.AreEqual(1, VSock.Local);
-        Assert.AreEqual(2, VSock.Host);
+        Assert.AreEqual(-1, VSock.AnyPort);
     }
 
     [TestMethod]
