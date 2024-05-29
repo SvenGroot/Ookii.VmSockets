@@ -15,7 +15,7 @@ if (!OperatingSystem.IsWindowsVersionAtLeast(10))
 }
 
 using var socket = HvSocket.Create(SocketType.Stream);
-var vmId = arguments.VmId ?? HvSocket.Parent;
+var vmId = arguments.VmId ?? VmId.Parent;
 var endpoint = new HvSocketEndPoint(vmId, arguments.Port);
 Console.WriteLine($"Connecting to {endpoint}...");
 socket.Connect(endpoint);

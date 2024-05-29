@@ -15,7 +15,7 @@ if (!OperatingSystem.IsWindowsVersionAtLeast(10))
     return 1;
 }
 
-var vmId = arguments.VmId ?? HvSocket.Wildcard;
+var vmId = arguments.VmId ?? VmId.Wildcard;
 var endpoint = new HvSocketEndPoint(vmId, arguments.Port);
 using (var wrapped = LineWrappingTextWriter.ForConsoleError())
 {
