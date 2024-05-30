@@ -73,6 +73,7 @@
   Provides functionality for using Hyper-V sockets and Linux VSock sockets.
 &lt;/para&gt;</NamespaceSummaryItem>
     </NamespaceSummaries>
+    <MissingTags>Summary, Parameter, Returns, Value, AutoDocumentCtors, Namespace, TypeParameter, AutoDocumentDispose</MissingTags>
   </PropertyGroup>
   <!-- There are no properties for these groups.  AnyCPU needs to appear in order for Visual Studio to perform
 			 the build.  The others are optional common platform types that may appear. -->

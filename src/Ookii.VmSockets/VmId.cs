@@ -3,7 +3,13 @@
 /// <summary>
 /// Provides well-known VM IDs for Hyper-V sockets.
 /// </summary>
+/// <remarks>
+/// <para>
+///   For the equivalent for Linux VSock sockets, see the <see cref="ContextId"/> class.
+/// </para>
+/// </remarks>
 /// <seealso cref="HvSocketEndPoint.VmId" qualifyHint="true"/>
+/// <threadsafety instance="false" static="true" />
 public static class VmId
 {
     /// <summary>
@@ -12,7 +18,7 @@ public static class VmId
     public static readonly Guid Broadcast = new(0xFFFFFFFF, 0xFFFF, 0xFFFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF);
 
     /// <summary>
-    /// Wildcard address for children.
+    /// Wildcard address that refers to all the child partitions of the current host.
     /// </summary>
     /// <remarks>
     /// <para>
@@ -26,7 +32,7 @@ public static class VmId
     /// </summary>
     /// <remarks>
     /// <para>
-    ///   Using this Guid connects to the same partition as the connector.
+    ///   Using this <see cref="Guid"/> connects to the same partition as the connector.
     /// </para>
     /// </remarks>
     public static readonly Guid Loopback = new(0xE0E16197, 0xDD56, 0x4A10, 0x91, 0x95, 0x5E, 0xE7, 0xA1, 0x55, 0xA8, 0x38);
@@ -36,7 +42,7 @@ public static class VmId
     /// </summary>
     /// <remarks>
     /// <para>
-    ///   Using this Guid connects or listens to the parent partition of the connector. The parent
+    ///   Using this <see cref="Guid"/> connects or listens to the parent partition of the connector. The parent
     ///   of a virtual machine is its host. The parent of a hosted silo is the VM's host.
     /// </para>
     /// </remarks>
@@ -58,7 +64,7 @@ public static class VmId
     /// </summary>
     /// <remarks>
     /// <para>
-    ///   Listeners should bind to this Guid to accept connection from all partitions.
+    ///   Listeners should bind to this <see cref="Guid"/> to accept connection from all partitions.
     /// </para>
     /// </remarks>
     public static readonly Guid Wildcard = Guid.Empty;

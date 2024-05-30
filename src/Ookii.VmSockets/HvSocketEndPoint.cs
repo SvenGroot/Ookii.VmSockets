@@ -13,8 +13,8 @@ namespace Ookii.VmSockets;
 ///   The functionality defined in this class is only available on Windows 10 and later versions.
 /// </note>
 /// <para>
-///   Hyper-V sockets can be used between a host and a guest virtual machine or a silo. It
-///   provides interoperability with VSock sockets for guest partitions running Linux.
+///   Hyper-V sockets can be used to communicate between a host and a guest virtual machine or a
+///   silo. It also provides interoperability with VSock sockets for virtual machines running Linux.
 /// </para>
 /// </remarks>
 /// <threadsafety instance="false" static="true" />
@@ -29,7 +29,7 @@ public class HvSocketEndPoint : EndPoint
     /// </summary>
     /// <param name="vmId">
     /// The ID of the virtual machine, or one of the well-known IDs defined in the
-    /// <see cref="HvSocket"/> class.
+    /// <see cref="VmId"/> class.
     /// </param>
     /// <param name="serviceId">The service ID.</param>
     /// <remarks>
@@ -50,7 +50,7 @@ public class HvSocketEndPoint : EndPoint
     /// </summary>
     /// <param name="vmId">
     /// The ID of the virtual machine, or one of the well-known IDs defined in the
-    /// <see cref="HvSocket"/> class.
+    /// <see cref="VmId"/> class.
     /// </param>
     /// <param name="port">The VSock port number. Valid values are between 0 and 0x7fffffff.</param>
     /// <remarks>
@@ -79,7 +79,7 @@ public class HvSocketEndPoint : EndPoint
     /// </summary>
     /// <value>
     /// The ID of the virtual machine, or one of the well-known IDs defined in the
-    /// <see cref="HvSocket"/> class.
+    /// <see cref="VmId"/> class.
     /// </value>
     public Guid VmId { get; set; }
 
@@ -114,7 +114,8 @@ public class HvSocketEndPoint : EndPoint
     /// </exception>
     /// <exception cref="ArgumentException">
     /// The AddressFamily of <paramref name="socketAddress"/> is not <c>AF_HYPERV</c>, or the size
-    /// of <paramref name="socketAddress"/> is less than <see cref="HvSocket.SocketAddressSize"/>.
+    /// of <paramref name="socketAddress"/> is less than
+    /// <see cref="HvSocket.SocketAddressSize" qualifyHint="true"/>.
     /// </exception>
     public override EndPoint Create(SocketAddress socketAddress)
     {
@@ -156,6 +157,12 @@ public class HvSocketEndPoint : EndPoint
     }
 
     /// <inheritdoc/>
+    /// <remarks>
+    /// <para>
+    ///   There is no standard notation for Hyper-V socket addresses. This method returns a string
+    ///   using the format <c>hvsocket[&lt;VmId&gt;:&lt;ServiceId&gt;]</c>.
+    /// </para>
+    /// </remarks>
     public override string ToString() => $"hvsocket[{VmId}:{ServiceId}]";
 
     /// <inheritdoc/>

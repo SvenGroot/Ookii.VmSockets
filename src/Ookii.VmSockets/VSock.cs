@@ -39,28 +39,28 @@ public static partial class VSock
     {
         /// <summary>
         /// The buffer size for a stream socket. The value will be clamped to the minimum and
-        /// maximum buffer sizes. Type: UInt64.
+        /// maximum buffer sizes. Type: <see cref="ulong"/>.
         /// </summary>
         BufferSize = 0,
         /// <summary>
-        /// The minimum buffer size for a stream socket. Type: UInt64.
+        /// The minimum buffer size for a stream socket. Type: <see cref="ulong"/>.
         /// </summary>
         BufferMinSize = 1,
         /// <summary>
-        /// The maximum buffer size for a stream socket. Type: UInt64.
+        /// The maximum buffer size for a stream socket. Type: <see cref="ulong"/>.
         /// </summary>
         BufferMaxSize = 2,
         /// <summary>
-        /// Retrieves the host-specific VM ID of the peer. Type: Int32.
+        /// Retrieves the host-specific VM ID of the peer. Type: <see cref="int"/>.
         /// </summary>
         PeerHostVmId = 3,
         /// <summary>
         /// Determines if a socket is trusted. A non-zero value indicates that the socket is
-        /// trusted. Type: Int32.
+        /// trusted. Type: <see cref="int"/>.
         /// </summary>
         Trusted = 5,
         /// <summary>
-        /// The connection timeout for a stream socket. Type: Int32.
+        /// The connection timeout for a stream socket. Type: a Linux <c>timeval</c> structure.
         /// </summary>
         ConnectTimeout = 6,
     }
@@ -71,7 +71,8 @@ public static partial class VSock
     public const AddressFamily AddressFamily = (AddressFamily)40;
 
     /// <summary>
-    /// The size of a <c>sockaddr_vm</c> structure.
+    /// The size, in bytes, of the <c>sockaddr_vm</c> structure, used to describe VSock socket
+    /// addresses.
     /// </summary>
     public const int SocketAddressSize = 16;
 
@@ -99,8 +100,8 @@ public static partial class VSock
     ///   On the Linux version of .Net, the <see cref="Socket(AddressFamily, SocketType, ProtocolType)"/>
     ///   constructor verifies that the address family is one of the known supported members of the
     ///   <see cref="AddressFamily"/> enumeration, so this method uses PInvoke to create the socket.
-    ///   It is not possible to create a VSock by instantiating the <see cref="Socket"/> class
-    ///   directly.
+    ///   It is not possible to create a VSock by calling the
+    ///   <see cref="Socket(AddressFamily, SocketType, ProtocolType)"/> constructor directly.
     /// </para>
     /// <para>
     ///   As a result, some members of the <see cref="Socket"/> class, such as
@@ -280,10 +281,12 @@ public static partial class VSock
     public static int GetPeerHostVmId(Socket socket) => GetSocketOption<int>(socket, SocketOption.PeerHostVmId);
 
     /// <summary>
-    /// Gets the host-specific VM ID of the peer.
+    /// Gets a value that indicates if the socket is trusted.
     /// </summary>
     /// <param name="socket">A VSock socket.</param>
-    /// <returns>The peer VM ID.</returns>
+    /// <returns>
+    /// <see langword="true"/> if the socket is trusted; otherwise, <see langword="false"/>.
+    /// </returns>
     /// <remarks>
     /// <para>
     ///   The behavior of this function is undefined if the socket is not a VSock socket.
@@ -353,7 +356,7 @@ public static partial class VSock
     /// Retrieving the local context ID requires root privileges.
     /// </exception>
     /// <exception cref="FileNotFoundException">
-    /// The /dev/vsock device was not found.
+    /// The <c>/dev/vsock</c> device was not found.
     /// </exception>
     /// <exception cref="Win32Exception">
     /// An error occurred retrieving the local CID.

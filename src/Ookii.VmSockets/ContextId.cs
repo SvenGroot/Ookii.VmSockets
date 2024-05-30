@@ -5,6 +5,13 @@ namespace Ookii.VmSockets;
 /// <summary>
 /// Provides well-known CIDs for Linux VSock sockets.
 /// </summary>
+/// <remarks>
+/// <para>
+///   For the equivalent for Hyper-V sockets, see the <see cref="VmId"/> class.
+/// </para>
+/// </remarks>
+/// <threadsafety instance="false" static="true" />
+/// <seealso cref="VSockEndPoint.ContextId" qualifyHint="true" />
 public static class ContextId
 {
     /// <summary>

@@ -20,8 +20,9 @@ namespace Ookii.VmSockets;
 ///   available for .Net 8.0 and later.
 /// </note>
 /// <para>
-///   VSock sockets can be used between a host and a guest virtual machine. It provides
-///   interoperability with Hyper-V sockets for guest partitions running Linux on a Windows host.
+///   VSock sockets can be used between a host and a guest virtual machine. It also provides
+///   interoperability with Hyper-V sockets for guest virtual machines running Linux on a Windows
+///   host.
 /// </para>
 /// </remarks>
 /// <threadsafety instance="false" static="true" />
@@ -35,8 +36,7 @@ public class VSockEndPoint : EndPoint
     /// </summary>
     /// <param name="contextId">
     /// Context ID identifying the destination. This can be one of the well known CID values
-    /// <see cref="ContextId.Any" qualifyHint="true"/>, <see cref="ContextId.Hypervisor" qualifyHint="true"/>,
-    /// <see cref="ContextId.Local" qualifyHint="true"/>, or <see cref="ContextId.Host" qualifyHint="true"/>.
+    /// defined in the <see cref="VmSockets.ContextId"/> class.
     /// </param>
     /// <param name="port">
     /// The port number, or <see cref="VSock.AnyPort" qualifyHint="true"/> to bind to any available
@@ -60,21 +60,20 @@ public class VSockEndPoint : EndPoint
     /// Gets or sets the context ID identifying the destination.
     /// </summary>
     /// <remarks>
-    /// <para>
-    /// This can be one of the well known CID values defined in the
-    /// <see cref="VmSockets.ContextId"/> class.
-    /// </para>
+    /// <value>
+    /// A context ID referring to a specific partition, or one of the well known CID values defined
+    /// in the <see cref="VmSockets.ContextId"/> class.
+    /// </value>
     /// </remarks>
     public int ContextId { get; set; }
 
     /// <summary>
     /// Gets or sets the port number.
     /// </summary>
-    /// <remarks>
-    /// <para>
-    ///   Use <see cref="VSock.AnyPort" qualifyHint="true"/> to bind to any available port.
-    /// </para>
-    /// </remarks>
+    /// <value>
+    /// The port number, or <see cref="VSock.AnyPort" qualifyHint="true"/> to bind to any available
+    /// port.
+    /// </value>
     public int Port { get; set; }
 
     /// <summary>
@@ -103,7 +102,7 @@ public class VSockEndPoint : EndPoint
     /// </exception>
     /// <exception cref="ArgumentException">
     /// The AddressFamily of <paramref name="socketAddress"/> is not <c>AF_HYPERV</c>, or the size
-    /// of <paramref name="socketAddress"/> is less than <see cref="VSock.SocketAddressSize"/>.
+    /// of <paramref name="socketAddress"/> is less than <see cref="VSock.SocketAddressSize" qualifyHint="true"/>.
     /// </exception>
     public override EndPoint Create(SocketAddress socketAddress)
     {
@@ -171,6 +170,12 @@ public class VSockEndPoint : EndPoint
     }
 
     /// <inheritdoc/>
+    /// <remarks>
+    /// <para>
+    ///   There is no standard notation for VSock socket addresses. This method returns a string
+    ///   using the format <c>vsock[&lt;ContextId&gt;:&lt;Port&gt;]</c>.
+    /// </para>
+    /// </remarks>
     public override string ToString() => $"vsock[{ContextId}:{Port}]";
 
     /// <inheritdoc/>

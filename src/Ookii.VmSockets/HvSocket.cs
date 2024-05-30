@@ -27,22 +27,22 @@ public static class HvSocket
     public enum SocketOption
     {
         /// <summary>
-        /// Sets the connection timeout for the socket in milliseconds. Type: UInt32.
+        /// Sets the connection timeout for the socket in milliseconds. Type: <see cref="uint"/>.
         /// </summary>
         ConnectTimeout = 1,
         /// <summary>
         /// Indicates the connection will pass through to a container. A non-zero value indicates
-        /// the option is enabled. Type: UInt32.
+        /// the option is enabled. Type: <see cref="uint"/>.
         /// </summary>
         ContainerPassthru = 2,
         /// <summary>
         /// Indicates that the socket will not disconnect when the VM is paused. A non-zero value
-        /// indicates the option is enabled. Type: UInt32.
+        /// indicates the option is enabled. Type: <see cref="uint"/>.
         /// </summary>
         ConnectedSuspend = 4,
         /// <summary>
-        /// Indicates that the socket will connect to guest VTL 2. A non-zero value indicates the
-        /// option is enabled. Type: UInt32.
+        /// Indicates that the socket will connect to the guest's management VTL. A non-zero value
+        /// indicates the option is enabled. Type: <see cref="uint"/>.
         /// </summary>
         HighVtl = 8
     }
@@ -58,7 +58,8 @@ public static class HvSocket
     public const ProtocolType RawProtocol = (ProtocolType)1;
 
     /// <summary>
-    /// The size of the <c>SOCKADDR_HV</c> structure, used to describe Hyper-V socket addresses.
+    /// The size, in bytes, of the <c>SOCKADDR_HV</c> structure, used to describe Hyper-V socket
+    /// addresses.
     /// </summary>
     public const int SocketAddressSize = 36;
 
@@ -340,8 +341,8 @@ public static class HvSocket
     /// </summary>
     /// <param name="socket">A Hyper-V socket.</param>
     /// <param name="value">
-    /// <see langword="true"/> to indicate the socket will connect to guest VTL 2; otherwise,
-    /// <see langword="false"/>.
+    /// <see langword="true"/> to indicate the socket will connect to the guest's management VTL;
+    /// otherwise, <see langword="false"/>.
     /// </param>
     /// <remarks>
     /// <para>
@@ -374,12 +375,12 @@ public static class HvSocket
     }
 
     /// <summary>
-    /// Gets the socket connected suspend option.
+    /// Gets the socket high VTL option.
     /// </summary>
     /// <param name="socket">A Hyper-V socket.</param>
     /// <returns>
-    /// <see langword="true"/> to indicate the socket will connect to guest VTL 2; otherwise,
-    /// <see langword="false"/>.
+    /// <see langword="true"/> to indicate the socket will connect to the guest's management VTL;
+    /// otherwise, <see langword="false"/>.
     /// </returns>
     /// <remarks>
     /// <para>
