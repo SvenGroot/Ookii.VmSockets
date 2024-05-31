@@ -59,12 +59,10 @@ public class VSockEndPoint : EndPoint
     /// <summary>
     /// Gets or sets the context ID identifying the destination.
     /// </summary>
-    /// <remarks>
     /// <value>
     /// A context ID referring to a specific partition, or one of the well known CID values defined
     /// in the <see cref="VmSockets.ContextId"/> class.
     /// </value>
-    /// </remarks>
     public int ContextId { get; set; }
 
     /// <summary>
