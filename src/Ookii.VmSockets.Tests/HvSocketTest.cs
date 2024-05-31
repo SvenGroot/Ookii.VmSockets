@@ -48,8 +48,8 @@ public class HvSocketTest
         }
 
         using var socket = HvSocket.Create(SocketType.Stream);
-        HvSocket.SetConnectTimeout(socket, 1234);
-        Assert.AreEqual(1234, HvSocket.GetConnectTimeout(socket));
+        HvSocket.SetConnectTimeout(socket, TimeSpan.FromMilliseconds(1234));
+        Assert.AreEqual(TimeSpan.FromMilliseconds(1234), HvSocket.GetConnectTimeout(socket));
     }
 
     [TestMethod]

@@ -115,7 +115,7 @@ public static class HvSocket
     /// Sets the connection timeout for the socket.
     /// </summary>
     /// <param name="socket">A Hyper-V socket.</param>
-    /// <param name="milliseconds">The timeout in milliseconds.</param>
+    /// <param name="timeout">The timeout.</param>
     /// <remarks>
     /// <para>
     ///   This socket option was introduced in Windows 10, version 1607 (build 14393).
@@ -133,24 +133,32 @@ public static class HvSocket
     /// <exception cref="SocketException">
     /// An error occurred when attempting to access the socket.
     /// </exception>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// The value of <paramref name="timeout"/> in milliseconds is less than 0 or greater than <see cref="int.MaxValue"/>.
+    /// </exception>
 #if NET6_0_OR_GREATER
     [SupportedOSPlatform("windows10.0.14393")]
 #endif
-    public static void SetConnectTimeout(Socket socket, int milliseconds)
+    public static void SetConnectTimeout(Socket socket, TimeSpan timeout)
     {
         if (socket == null)
         {
             throw new ArgumentNullException(nameof(socket));
         }
 
-        socket.SetSocketOption((SocketOptionLevel)RawProtocol, (SocketOptionName)SocketOption.ConnectTimeout, milliseconds);
+        if (timeout.TotalMilliseconds is < 0 or > int.MaxValue)
+        {
+            throw new ArgumentOutOfRangeException(nameof(timeout));
+        }
+
+        socket.SetSocketOption((SocketOptionLevel)RawProtocol, (SocketOptionName)SocketOption.ConnectTimeout, (int)timeout.TotalMilliseconds);
     }
 
     /// <summary>
     /// Gets the connection timeout for the socket.
     /// </summary>
     /// <param name="socket">A Hyper-V socket.</param>
-    /// <returns>The timeout in milliseconds.</returns>
+    /// <returns>The timeout.</returns>
     /// <remarks>
     /// <para>
     ///   This socket option was introduced in Windows 10, version 1607 (build 14393).
@@ -171,14 +179,15 @@ public static class HvSocket
 #if NET6_0_OR_GREATER
     [SupportedOSPlatform("windows10.0.14393")]
 #endif
-    public static int GetConnectTimeout(Socket socket)
+    public static TimeSpan GetConnectTimeout(Socket socket)
     {
         if (socket == null)
         {
             throw new ArgumentNullException(nameof(socket));
         }
 
-        return (int)socket.GetSocketOption((SocketOptionLevel)RawProtocol, (SocketOptionName)SocketOption.ConnectTimeout)!;
+        var timeout = (int)socket.GetSocketOption((SocketOptionLevel)RawProtocol, (SocketOptionName)SocketOption.ConnectTimeout)!;
+        return TimeSpan.FromMilliseconds(timeout);
     }
 
     /// <summary>
