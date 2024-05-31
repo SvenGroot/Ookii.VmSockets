@@ -2,26 +2,30 @@
 
 Ookii.VmSockets is a library that provides support for Hyper-V sockets (hvsocket) and Linux VSock
 sockets for .Net applications. Both are used to communicate between the host and a guest virtual
-machine, on Windows Hyper-V and on Linux respectively. A Linux guest, including the Windows
-Subsystem for Linux (WSL) using VSock can also communicate with a Windows host using Hyper-V
-sockets.
+machine, on Windows Hyper-V and on Linux respectively. It's also possible for a Linux guest,
+including the Windows Subsystem for Linux (WSL), using VSock to communicate with a Windows host
+using Hyper-V sockets.
 
 To get started, keep reading or check out the [samples](src/Samples).
 
 ## Hyper-V sockets
 
 Hyper-V sockets are sockets using the `AF_HYPERV` address family. They provide a method for a
-Windows host to communicate with a guest VM using regular socket APIs. Hvsockets are supported
-on Windows 10 and later.
+Windows host to communicate with a guest VM, running Windows or Linux, using regular socket APIs.
+Hyper-V sockets are supported on Windows 10 and later.
 
-Ookii.VmSockets provides the [`HvSocketEndPoint`][] class, which allows you to listen or connect
-using Hyper-V sockets with the .Net [`Socket`][] class. Hvsocket endpoints are identified using a VM
-ID and a service ID. Additionally, the [`HvSocket`][] class provides a number of helper methods to
-create a socket or set socket options, as well as constants for well-known VM IDs such as
-[`HvSocket.Parent`][] and [`HvSocket.Wildcard`][].
+Ookii.VmSockets provides the [`HvSocketEndPoint`][] class, which can be used with the .Net
+[`Socket`][] class to communicate with a VM, or in a guest to communicate with the host.
 
-For example, the following creates a server socket that listens for connections from any source,
-where `ServiceId` is a GUID that represents your service:
+To create a Hyper-V endpoint, you need the ID of a VM to connect to or listen for connections from,
+or you can use a predefined ID such as [`VmId.Parent`][] and [`VmId.Wildcard`][]. You also need a
+service ID, which can be any arbitrary GUID which identifies the connection.
+
+Additionally, the [`HvSocket`][] class provides a number of helper methods to create a socket or set
+socket options.
+
+The following example creates a socket that listens for connections from any source, where
+`ServiceId` is a GUID that represents your service:
 
 ```csharp
 using var server = HvSocket.Create(SocketType.Stream);
@@ -31,7 +35,7 @@ var socket = server.Accept();
 ```
 
 > [!IMPORTANT]
-> When using hvsocket on the host to listen for connections from a guest, you must
+> When using Hyper-V sockets on the host to listen for connections from a guest, you must
 > [add your service ID to the registry](https://learn.microsoft.com/virtualization/hyper-v-on-windows/user-guide/make-integration-service).
 > This is not required if a guest listens for connections from the host, with the client using
 > [`Socket.Connect()`][] running on the host.
@@ -61,22 +65,23 @@ running on your system, you can use `hcsdiag.exe list` instead.
 
 ## VSock sockets
 
-Linux provides equivalent functionality using [VSock](https://www.man7.org/linux/man-pages/man7/vsock.7.html),
-which uses the `AF_VSOCK` address family.
+Linux provides for communication between a host and guest VMs using
+[VSock](https://www.man7.org/linux/man-pages/man7/vsock.7.html), which uses the `AF_VSOCK` address
+family.
 
 > [!IMPORTANT]
 > Due to limitations[^1] in the .Net sockets implementation on Linux, VSock support is only
 > available for .Net 8.0 and later.
 
 Ookii.VmSockets provides the [`VSockEndPoint`][] class to represent a VSock address, which consists
-of a context ID (CID) and port number. The [`VSock`][] class provides helper functions and
-constants.
+of a context ID (CID), which can be a predefined ID from the [`ContextId`][] class, and a port number.
+The [`VSock`][] class provides helper functions and constants.
 
 > [!IMPORTANT]
-> Unlike with hvsockets, you *must* use the [`VSock.Create()`][] method to create a VSock socket,
-> because on Linux, the regular [`Socket`][] class constructor does not allow the use of address
-> families other than the ones predefined by .Net. The [`VSock.Create()`][] method uses PInvoke with
-> the libc `socket` function to create the socket instead.
+> Unlike with Hyper-V sockets, you *must* use the [`VSock.Create()`][] method to create a VSock
+> socket, because on Linux, the regular [`Socket`][] class constructor does not allow the use of
+> address families other than the ones predefined by .Net. The [`VSock.Create()`][] method uses
+> PInvoke with the libc `socket` function to create the socket instead.
 
 The following example listens for connections on port 50000:
 
@@ -92,15 +97,16 @@ the correct values when using VSock sockets.
 
 ## Requirements
 
-Ookii.VmSockets is a class library for use in your own applications for [Microsoft .Net](https://dotnet.microsoft.com/).
-It can be used with applications supporting one of the following:
+Ookii.VmSockets is a class library for use in your own applications for
+[Microsoft .Net](https://dotnet.microsoft.com/). It can be used with applications supporting one of
+the following:
 
 - .Net Standard 2.0
 - .Net Standard 2.1
 - .Net 6.0
 - .Net 8.0 and later
 
-Linux VSock support is only available for .Net 8 and later.
+Linux VSock support is only available for .Net 8.0 and later.
 
 ## Building and testing
 
@@ -116,7 +122,8 @@ The tests are built and run for .Net 8.0 and .Net Framework 4.8. The .Net Framew
 not relevant on Linux, as VSock is not supported on .Net Framework and Hyper-V sockets are not
 supported on Linux.
 
-The class library documentation is generated using [Sandcastle Help File Builder](https://github.com/EWSoftware/SHFB).
+The class library documentation is generated using
+[Sandcastle Help File Builder](https://github.com/EWSoftware/SHFB).
 
 ## Learn more
 
@@ -124,21 +131,22 @@ The class library documentation is generated using [Sandcastle Help File Builder
 - [Class library documentation](https://www.ookii.org/Link/VmSocketsDoc)
 - [Samples](src/Samples)
 
-[^1]: In .Net on Linux, it is not possible to create an instance of the `SocketAddress` class with
-    an address family that is not predefined by .Net. In .Net 8, this can be worked around by
+[^1]: In .Net on Linux, it is not possible to create an instance of the [`SocketAddress`][] class
+    with an address family that is not predefined by .Net. In .Net 8, this can be worked around by
     directly modifying the address family in the buffer of the [`SocketAddress`][] instance, but
     accessing the buffer in this way is only possible in .Net 8 and later. Without this ability,
     it's not possible to write a functional [`VSockEndPoint`][] class.
 
+[`ContextId`]: https://www.ookii.org/docs/vmsockets-1.0/html/T_Ookii_VmSockets_ContextId.htm
 [`Get-VM`]: https://learn.microsoft.com/powershell/module/hyper-v/get-vm?view=windowsserver2022-ps
-[`HvSocket.Parent`]: https://www.ookii.org/docs/vmsockets-1.0/html/F_Ookii_VmSockets_HvSocket_Parent.htm
-[`HvSocket.Wildcard`]: https://www.ookii.org/docs/vmsockets-1.0/html/F_Ookii_VmSockets_HvSocket_Wildcard.htm
 [`HvSocket`]: https://www.ookii.org/docs/vmsockets-1.0/html/T_Ookii_VmSockets_HvSocket.htm
 [`HvSocketEndPoint(Guid, int)`]: https://www.ookii.org/docs/vmsockets-1.0/html/M_Ookii_VmSockets_HvSocketEndPoint__ctor_1.htm
 [`HvSocketEndPoint`]: https://www.ookii.org/docs/vmsockets-1.0/html/T_Ookii_VmSockets_HvSocketEndPoint.htm
 [`Socket.Connect()`]: https://learn.microsoft.com/dotnet/api/system.net.sockets.socket.connect
 [`Socket`]: https://learn.microsoft.com/dotnet/api/system.net.sockets.socket
 [`SocketAddress`]: https://learn.microsoft.com/dotnet/api/system.net.socketaddress
+[`VmId.Parent`]: https://www.ookii.org/docs/vmsockets-1.0/html/F_Ookii_VmSockets_VmId_Parent.htm
+[`VmId.Wildcard`]: https://www.ookii.org/docs/vmsockets-1.0/html/F_Ookii_VmSockets_VmId_Wildcard.htm
 [`VSock.Create()`]: https://www.ookii.org/docs/vmsockets-1.0/html/M_Ookii_VmSockets_VSock_Create.htm
 [`VSock`]: https://www.ookii.org/docs/vmsockets-1.0/html/T_Ookii_VmSockets_VSock.htm
 [`VSockEndPoint`]: https://www.ookii.org/docs/vmsockets-1.0/html/T_Ookii_VmSockets_VSockEndPoint.htm
